@@ -36,7 +36,9 @@ public class Product implements Serializable{
     private PhoneDetail phonedetail;
 	
 	private String name;
-	private String image;		
+	
+	private String image;	
+	
 	private Double price;
 	
 	@Temporal(TemporalType.DATE)

@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "bcamera_feature")
+@Table(name = "back_camera_feature")
 public class BackCameraFeature implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -25,6 +25,6 @@ public class BackCameraFeature implements Serializable{
 	
 	String name;
 	
-	@OneToMany(mappedBy = "backCameraFeature")
+	@OneToMany(mappedBy = "bCameraFeature")
 	List<BackCameraFeature_PhoneDetail> list;
 }

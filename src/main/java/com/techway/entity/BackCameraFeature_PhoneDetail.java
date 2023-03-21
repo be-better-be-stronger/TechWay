@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "phone_detail_has_back_camera_features")
+@Table(name = "phone_details_has_back_camera_features")
 public class BackCameraFeature_PhoneDetail implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -25,9 +25,9 @@ public class BackCameraFeature_PhoneDetail implements Serializable{
 	
 	@ManyToOne()
 	@JoinColumn(name = "bcamera_feature_id")
-	BackCameraFeature backCameraFeature;
+	BackCameraFeature bCameraFeature;
 	
 	@ManyToOne()
-	@JoinColumn(name = "product_details_id")
+	@JoinColumn(name = "phone_details_id")
 	PhoneDetail phoneDetail;
 }

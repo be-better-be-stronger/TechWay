@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -101,7 +103,7 @@ public class PhoneDetail implements Serializable {
 
 	String ipIndex; // Kháng nước, bụi
 	boolean recording;// Ghi âm
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "phoneDetail")
 	List<VideoPlayer_PhoneDetail> videoPlayers;// Xem phim
 

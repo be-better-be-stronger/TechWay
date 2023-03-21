@@ -15,10 +15,10 @@ import lombok.Data;
 public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
+	String email;
 	String username;
 	String password;
-	String fullname;
-	String email;
+	String fullname;	
 	String photo;
 	
 	@OneToMany(mappedBy = "account")
