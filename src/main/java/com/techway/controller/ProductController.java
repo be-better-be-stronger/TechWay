@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.entity.Product;
-import com.techway.service.ProductService;
+import com.techway.service.impl.ProductService;
 
 @RestController
 @CrossOrigin("*")

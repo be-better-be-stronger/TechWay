@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,19 +34,25 @@ public class Product implements Serializable{
 	private Integer id;
 	
 	@OneToOne(mappedBy = "product")
-    private PhoneDetail phonedetail;
+	@PrimaryKeyJoinColumn
+    private PhoneDetail phoneDetail;
 	
-	private String name;
+	@OneToOne(mappedBy = "product")
+	@PrimaryKeyJoinColumn
+    private LaptopDetail laptopDetail;
 	
+	@OneToOne(mappedBy = "product")
+	@PrimaryKeyJoinColumn
+    private TabletDetail tabletDetail;
+	
+	private String name;	
 	private String image;	
-	
 	private Double price;
+	private Boolean available;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Createdate")
-	private Date createdDate = new Date();
-	
-	private Boolean available;
+	private Date createdDate = new Date();	
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -55,9 +62,11 @@ public class Product implements Serializable{
 	@OneToMany(mappedBy = "product")
 	private List<OrderDetail> orderDetails;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	private List<Comment> comments;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	private List<Color_Product> color_product_list;
 	

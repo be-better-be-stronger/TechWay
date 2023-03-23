@@ -14,21 +14,20 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "phone_detail_has_films")
-public class Film_PhoneDetail implements Serializable{
-	/**
-	 * 
-	 */
+@Table(name = "screen_techs_laptop_details")
+public class ScreenTech_LaptopDetail implements Serializable{
+
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	Long id;
+	@ManyToOne
+	@JoinColumn(name = "laptop_detail_id")
+	LaptopDetail laptopDetail;
 	
-	@ManyToOne()
-	@JoinColumn(name = "film_id")
-	Film film;
+	@ManyToOne
+	@JoinColumn(name = "screen_tech_id")
+	ScreenTech screenTech;
 	
-	@ManyToOne()
-	@JoinColumn(name = "phone_detail_id")
-	PhoneDetail phoneDetail;
 }

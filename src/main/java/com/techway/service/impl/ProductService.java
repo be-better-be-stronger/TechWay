@@ -1,14 +1,14 @@
-package com.techway.service;
+package com.techway.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 
 import com.techway.entity.Product;
 import com.techway.repository.ProductRepository;
-import com.techway.service.impl.IProductService;
-
+import com.techway.service.IProductService;
+@Service
 public class ProductService implements IProductService{
 	
 	@Autowired
@@ -29,9 +29,6 @@ public class ProductService implements IProductService{
 		return productRepository.findByCategoryId(cid);
 	}
 
-	
-
-	
 	@Override
 	public void delete(Integer id) {
 		productRepository.deleteById(id);

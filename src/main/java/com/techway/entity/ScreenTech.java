@@ -10,22 +10,26 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
-@Entity
 @Data
-@Table(name = "gps")
-public class GPS implements Serializable {
-	/**
-	 * 
-	 */
+@Entity
+@Table(name = "screenTechs")
+public class ScreenTech implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	private String name;
-
-	@OneToMany(mappedBy = "gps")
-	List<GPS_PhoneDetail> list;
+	Long id;
+	String name;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "screenTech")
+	List<PhoneDetail> phoneDetails;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "screenTech")
+	List<ScreenTech_LaptopDetail> screenTechLaptopDetails;
 }

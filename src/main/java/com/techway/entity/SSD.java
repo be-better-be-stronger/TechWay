@@ -1,34 +1,33 @@
 package com.techway.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "phone_detail_has_wifi")
-public class Wifi_PhoneDetail implements Serializable{
-	/**
-	 * 
-	 */
+@Table(name="ssd")
+public class SSD implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	int id;
 	
-	@ManyToOne()
-	@JoinColumn(name = "wifi_id")
-	Wifi wifi;
+	String name;
 	
-	@ManyToOne()
-	@JoinColumn(name = "phone_detail_id")
-	PhoneDetail phoneDetail;
+	@JsonIgnore
+	@OneToMany(mappedBy = "ssd")
+	List<SSD_LaptopDetail> ssdLaptopDetails;
+
 }

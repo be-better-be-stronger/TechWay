@@ -13,22 +13,21 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
+@Table(name="ssd_laptop_detail")
 @Data
-@Table(name = "phone_detail_has_music_players")
-public class MusicPlayer_PhoneDetail implements Serializable{
-	/**
-	 * 
-	 */
+public class SSD_LaptopDetail implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	Long id;
 	
-	@ManyToOne()
-	@JoinColumn(name = "music_player_id")
-	MusicPlayer musicPlayer;
+	@ManyToOne
+	@JoinColumn(name="laptop_detail_id")
+	LaptopDetail laptopDetail;
 	
-	@ManyToOne()
-	@JoinColumn(name = "phone_detail_id")
-	PhoneDetail phoneDetail;
+	@ManyToOne
+	@JoinColumn(name="ssd_id")
+	SSD ssd;
+	
 }

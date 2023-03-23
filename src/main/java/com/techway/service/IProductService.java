@@ -1,4 +1,4 @@
-package com.techway.service.impl;
+package com.techway.service;
 
 import java.util.List;
 
