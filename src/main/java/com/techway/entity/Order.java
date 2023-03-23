@@ -29,8 +29,9 @@ public class Order implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(name = "created_date")
 	Date createdDate = new Date();
+	
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "email")
 	Account account;
 	
 	@JsonIgnore

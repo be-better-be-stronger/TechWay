@@ -15,45 +15,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techway.entity.Manufacturer;
 import com.techway.entity.Product;
+import com.techway.repository.ManufacturerRepository;
 import com.techway.service.IProductService;
 
-@RestController
 @CrossOrigin("*")
-@RequestMapping("/products")
-public class ProductController {
-	
+@RestController
+@RequestMapping("/manufacturers")
+public class ManufacturerController {
 	@Autowired
-	IProductService productService;
-	
+	ManufacturerRepository manufacturerRepository;
+
 	@GetMapping
-	public List<Product> list(@RequestParam("cid") Optional<String> cid) {
-		if (cid.isPresent()) {
-			List<Product> list = productService.findByCategoryId(cid.get());
-			return  list;
-		} else {
-			List<Product> list = productService.findAll();
-			return list;
-		}
-	}	
-	
+	public List<Manufacturer> list(){
+		return manufacturerRepository.findAll();
+	}
+
 	@GetMapping("{id}")
-	public Product getOne(@PathVariable("id") Integer id) {
-		return productService.findById(id);
+	public Manufacturer getOne(@PathVariable("id") Integer id) {
+		return manufacturerRepository.findById(id).get();
 	}
-	
+
 	@PostMapping
-	public Product create(@RequestBody Product product) {
-		return productService.createOrUpdate(product);
+	public Manufacturer create(@RequestBody Manufacturer manufacturer) {
+		return manufacturerRepository.save(manufacturer);
 	}
-	
+
 	@PutMapping("{id}")
-	public Product update(@PathVariable("id") Integer id, @RequestBody Product product) {
-		return productService.createOrUpdate(product);
+	public Manufacturer update(@PathVariable("id") Integer id, @RequestBody Manufacturer manufacturer) {
+		return manufacturerRepository.save(manufacturer);
 	}
-	
+
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id") Integer id) {
-		productService.delete(id);
+		manufacturerRepository.deleteById(id);
 	}
+
 }

@@ -40,10 +40,7 @@ public class Product implements Serializable{
 	@OneToOne(mappedBy = "product")
 	@PrimaryKeyJoinColumn
     private LaptopDetail laptopDetail;
-	
-	@OneToOne(mappedBy = "product")
-	@PrimaryKeyJoinColumn
-    private TabletDetail tabletDetail;
+
 	
 	private String name;	
 	private String image;	
