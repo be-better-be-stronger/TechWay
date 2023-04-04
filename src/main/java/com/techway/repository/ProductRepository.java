@@ -8,5 +8,5 @@ import com.techway.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	List<Product> findAllByCategoryId(long cid);
+	List<Product> findAllByCategoryId(int cid);
 }
