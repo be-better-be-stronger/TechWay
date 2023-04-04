@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,45 +18,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.entity.Product;
+import com.techway.dto.ProductDto;
 import com.techway.service.IProductService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 	
 	@Autowired
 	IProductService productService;
 	
-	@GetMapping
-	public List<Product> list(@RequestParam("cid") Optional<String> cid) {
-		if (cid.isPresent()) {
-			List<Product> list = productService.findByCategoryId(cid.get());
-			return  list;
-		} else {
-			List<Product> list = productService.findAll();
-			return list;
-		}
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity< List<ProductDto>> list(@RequestParam("cid") Optional<Integer> cid) {
+		List<ProductDto> list = null;
+		if (cid.isPresent())
+			list = productService.findAllByCategoryId(cid.get());
+		else
+			list = productService.findAll();
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}	
 	
-	@GetMapping("{id}")
-	public Product getOne(@PathVariable("id") Integer id) {
-		return productService.findById(id);
+	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductDto> getOne(@PathVariable("id") long id) {
+		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public Product create(@RequestBody Product product) {
-		return productService.createOrUpdate(product);
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
+		return new ResponseEntity<>(productService.save(productDto), HttpStatus.CREATED);
 	}
 	
-	@PutMapping("{id}")
-	public Product update(@PathVariable("id") Integer id, @RequestBody Product product) {
-		return productService.createOrUpdate(product);
+	@PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ProductDto> update(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
+		return new ResponseEntity<>(productService.update(id, productDto), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id") Integer id) {
+	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		productService.delete(id);
+		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
 	}
 }

@@ -24,7 +24,7 @@ public class PhoneDetail implements Serializable {
 	
 	@Id
 	@Column(name = "product_id")
-	private Integer id;
+	private Long id;
 	
 	//@MapsId -> indicates that the primary key values 
 	//will be copied from the Product entity

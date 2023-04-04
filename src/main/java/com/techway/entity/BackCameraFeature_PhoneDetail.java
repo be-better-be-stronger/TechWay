@@ -24,8 +24,8 @@ public class BackCameraFeature_PhoneDetail implements Serializable{
 	private Integer id;
 	
 	@ManyToOne()
-	@JoinColumn(name = "bcamera_feature_id")
-	BackCameraFeature bCameraFeature;
+	@JoinColumn(name = "camera_feature_id")
+	CameraFeature cameraFeature;
 	
 	@ManyToOne()
 	@JoinColumn(name = "phone_details_id")

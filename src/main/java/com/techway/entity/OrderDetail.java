@@ -10,11 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "Orderdetails")
+@Table(name = "orderdetails")
 public class OrderDetail implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +26,9 @@ public class OrderDetail implements Serializable{
 	Double price;
 	Integer quantity;
 	@ManyToOne
-	@JoinColumn(name = "Productid")
+	@JoinColumn(name = "product_id")
 	Product product;
 	@ManyToOne 
-	@JoinColumn(name = "Orderid")
+	@JoinColumn(name = "order_id")
 	Order order;
 }

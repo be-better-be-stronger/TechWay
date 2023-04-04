@@ -13,39 +13,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.entity.Manufacturer;
-import com.techway.repository.ManufacturerRepository;
+import com.techway.entity.Color;
+import com.techway.repository.ColorRepository;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/manufacturers")
-public class ManufacturerController {
+@RequestMapping("/colors")
+public class ColorController {
+	
 	@Autowired
-	ManufacturerRepository manufacturerRepository;
-
+	ColorRepository colorRepository;
+	
 	@GetMapping
-	public List<Manufacturer> list(){
-		return manufacturerRepository.findAll();
+	public List<Color> list(){
+		return colorRepository.findAll();
 	}
 
 	@GetMapping("{id}")
-	public Manufacturer getOne(@PathVariable("id") Integer id) {
-		return manufacturerRepository.findById(id).get();
+	public Color getOne(@PathVariable("id") Integer id) {
+		return colorRepository.findById(id).get();
 	}
 
 	@PostMapping
-	public Manufacturer create(@RequestBody Manufacturer manufacturer) {
-		return manufacturerRepository.save(manufacturer);
+	public Color create(@RequestBody Color color) {
+		return colorRepository.save(color);
 	}
 
 	@PutMapping("{id}")
-	public Manufacturer update(@PathVariable("id") Integer id, @RequestBody Manufacturer manufacturer) {
-		return manufacturerRepository.save(manufacturer);
+	public Color update(@PathVariable("id") Integer id, @RequestBody Color color) {
+		return colorRepository.save(color);
 	}
 
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id") int id) {
-		manufacturerRepository.deleteById(id);
+	public void delete(@PathVariable("id") Integer id) {
+		colorRepository.deleteById(id);
 	}
-
 }

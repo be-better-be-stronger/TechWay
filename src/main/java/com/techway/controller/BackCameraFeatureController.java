@@ -13,39 +13,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.entity.Manufacturer;
-import com.techway.repository.ManufacturerRepository;
+import com.techway.entity.CameraFeature;
+import com.techway.repository.BackCameraFeatureRepository;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/manufacturers")
-public class ManufacturerController {
+@RequestMapping("/bcf")
+public class BackCameraFeatureController {
+	
 	@Autowired
-	ManufacturerRepository manufacturerRepository;
-
+	BackCameraFeatureRepository bcfRepo;
 	@GetMapping
-	public List<Manufacturer> list(){
-		return manufacturerRepository.findAll();
+	public List<CameraFeature> list(){
+		return bcfRepo.findAll();
 	}
 
 	@GetMapping("{id}")
-	public Manufacturer getOne(@PathVariable("id") Integer id) {
-		return manufacturerRepository.findById(id).get();
+	public CameraFeature getOne(@PathVariable("id") Integer id) {
+		return bcfRepo.findById(id).get();
 	}
 
 	@PostMapping
-	public Manufacturer create(@RequestBody Manufacturer manufacturer) {
-		return manufacturerRepository.save(manufacturer);
+	public CameraFeature create(@RequestBody CameraFeature o) {
+		return bcfRepo.save(o);
 	}
 
 	@PutMapping("{id}")
-	public Manufacturer update(@PathVariable("id") Integer id, @RequestBody Manufacturer manufacturer) {
-		return manufacturerRepository.save(manufacturer);
+	public CameraFeature update(@PathVariable("id") Integer id, @RequestBody CameraFeature o) {
+		return bcfRepo.save(o);
 	}
 
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable("id") int id) {
-		manufacturerRepository.deleteById(id);
+	public void delete(@PathVariable("id") Integer id) {
+		bcfRepo.deleteById(id);
 	}
-
 }

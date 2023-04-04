@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,18 +21,23 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "products")
 public class Product implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	
 	@OneToOne(mappedBy = "product")
 	@PrimaryKeyJoinColumn
@@ -41,19 +47,26 @@ public class Product implements Serializable{
 	@PrimaryKeyJoinColumn
     private LaptopDetail laptopDetail;
 
-	
+	@Column(name = "name")
 	private String name;	
 	private String image;	
 	private Double price;
-	private Boolean available;
+	private boolean available;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "Createdate")
 	private Date createdDate = new Date();	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "manufacturer_id")
+	private Manufacturer manufacturer;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "color_id")
+	private Color color;
 	
 	@JsonIgnore //when we use json(rest api) will ignore this field to avoid making mistake
 	@OneToMany(mappedBy = "product")
@@ -62,13 +75,5 @@ public class Product implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	private List<Comment> comments;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	private List<Color_Product> color_product_list;
-	
-	@ManyToOne
-	@JoinColumn(name = "manufaturer_id")
-	private Manufacturer manufacturer;
-	
+		
 }

@@ -24,7 +24,7 @@ public class LaptopDetail implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "product_id")
-	private int id;
+	private Long id;
 	
 	//@MapsId -> indicates that the primary key values 
 	//will be copied from the Product entity
@@ -47,11 +47,8 @@ public class LaptopDetail implements Serializable{
 	private String type; //loại RAM
 	private int busRAM; //Tốc độ Bus RAM
 	private int maxRAM; //Hỗ trợ RAM tối đa
+	private String ssd;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "laptopDetail")
-	private List<SSD_LaptopDetail> ssdLaptopDetails;// Ổ cứng
-
 	//	Màn hình
 	float screenWidth; //Màn hình(inch)
 	String screenResolution; //do phan giai man hinh
