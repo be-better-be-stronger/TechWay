@@ -1,12 +1,19 @@
 ﻿/*1. chay doan nay*/
 use master
+
 go
-drop database techway
+drop database techway /*chay dong nay neu trong sqlserver da co databse techway*/
 go
 create database techway
 go 
 use techway
-/*2. run ung dung spring boot*/
+select * from roles
+/*	
+2.1. open file application.properties, chinh none thanh update:
+	spring.jpa.hibernate.ddl-auto=none 
+	--> spring.jpa.hibernate.ddl-auto=update
+2.2. run ung dung spring boot
+*/
 
 go
 /*3. doi kieu du lieu varchar(255)mac dinh trong entity(String) thanh nvarchar*/
@@ -108,3 +115,4 @@ select * from camera_features
 select * from categories
 go
 select * from products where category_id = 'phone'
+select * from roles

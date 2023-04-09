@@ -10,5 +10,5 @@ public interface IProductService {
 	List<ProductDto> findAllByCategoryId(int cid);
 	ProductDto save(ProductDto productDto);
 	ProductDto update(long id, ProductDto productDto);
-	void delete(long id);
+	void disable(long id);
 }

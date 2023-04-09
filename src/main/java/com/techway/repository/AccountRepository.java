@@ -1,15 +1,19 @@
 package com.techway.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.techway.entity.Account;
-@Repository
-public interface AccountRepository extends JpaRepository<Account, String>{
-	@Query("SELECT DISTINCT ar.account FROM Authority ar WHERE ar.role.id IN ('DIRE', 'STAF')")
-	List<Account> getAdministrators();
 
+
+public interface AccountRepository extends JpaRepository<Account, Long> {
+	
+	Optional<Account> findByEmail(String email);
+
+	@Query("SELECT u FROM Account u WHERE email = ?1 and u.verificationCode = ?2")
+	public Account findByVerificationCodeAndEmail(String email, String verificationCode);
+
+	
 }

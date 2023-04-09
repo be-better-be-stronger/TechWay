@@ -1,5 +1,6 @@
 package com.techway.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,14 +49,18 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public void delete(long id) {
-		productRepository.deleteById(id);
-		
+	public void disable(long id) {
+		Product product = productRepository.findById(id).orElseThrow(
+				() -> new ProductNotFound(String.format("Product Id %d not found", id))
+				);
+		product.setAvailable(false);
+		productRepository.save(product);
 	}
 
 	@Override
 	public ProductDto save(ProductDto productDto) {
 		Product product = productDtoToEntity(productDto);
+		product.setCreatedDate(new Date());
 		Product savedProduct = productRepository.save(product);
 		return entityToProductDto(savedProduct);
 	}
@@ -68,7 +73,7 @@ public class ProductService implements IProductService{
 		product.setName(productDto.getName());
 		product.setImage(productDto.getImage());
 		product.setPrice(productDto.getPrice());
-		product.setAvailable(productDto.isAvailable());
+		product.setAvailable(productDto.getAvailable());
 		product.setCategory(categoryRepository.findById(productDto.getCategoryId()).get());
 		product.setManufacturer(manufacturerRepository.findById(productDto.getManufacturerId()).get());
 		product.setColor(colorRepository.findById(productDto.getColorId()).get());
@@ -81,7 +86,8 @@ public class ProductService implements IProductService{
 		product.setName(productDto.getName());
 		product.setImage(productDto.getImage());
 		product.setPrice(productDto.getPrice());
-		product.setAvailable(productDto.isAvailable());
+		product.setAvailable(productDto.getAvailable());
+		product.setCreatedDate(productDto.getCreatedDate());
 		product.setCategory(categoryRepository.findById(productDto.getCategoryId()).get());
 		product.setManufacturer(manufacturerRepository.findById(productDto.getManufacturerId()).get());
 		product.setColor(colorRepository.findById(productDto.getColorId()).get());
@@ -94,10 +100,12 @@ public class ProductService implements IProductService{
 		productDto.setName(savedProduct.getName());
 		productDto.setImage(savedProduct.getImage());
 		productDto.setPrice(savedProduct.getPrice());
-		productDto.setAvailable(savedProduct.isAvailable());
+		productDto.setAvailable(savedProduct.getAvailable());
+		productDto.setCreatedDate(savedProduct.getCreatedDate());
 		productDto.setCategoryId(savedProduct.getCategory().getId());
 		productDto.setManufacturerId(savedProduct.getManufacturer().getId());
 		productDto.setColorId(savedProduct.getColor().getId());
+		System.out.println("createdDate: " + productDto.getCreatedDate());
 		return  productDto;
 	}
 

@@ -2,7 +2,6 @@ package com.techway.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,14 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +32,7 @@ public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@OneToOne(mappedBy = "product")
@@ -51,7 +47,7 @@ public class Product implements Serializable{
 	private String name;	
 	private String image;	
 	private Double price;
-	private boolean available;
+	private Boolean available;
 	
 	@Temporal(TemporalType.DATE)
 	private Date createdDate = new Date();	
@@ -61,19 +57,12 @@ public class Product implements Serializable{
 	private Category category;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manufacturer_id")
+	@JoinColumn(name = "manufacturer_id", nullable = false)
 	private Manufacturer manufacturer;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "color_id")
 	private Color color;
-	
-	@JsonIgnore //when we use json(rest api) will ignore this field to avoid making mistake
-	@OneToMany(mappedBy = "product")
-	private List<OrderDetail> orderDetails;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	private List<Comment> comments;
+
 		
 }

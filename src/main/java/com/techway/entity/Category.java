@@ -3,6 +3,7 @@ package com.techway.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +28,8 @@ public class Category implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(nullable = false)
 	private String categoryNo;
+	@Column(nullable = false)
 	private String categoryName;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "category")
-	private List<Product> products;
 }
