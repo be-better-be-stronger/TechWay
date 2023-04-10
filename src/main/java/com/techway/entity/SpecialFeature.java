@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
 import lombok.Data;
 
 @Entity
@@ -22,6 +24,7 @@ public class SpecialFeature implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Nationalized
 	private String name;
 
 	@OneToMany(mappedBy = "specialFeature")

@@ -1,6 +1,11 @@
 package com.techway.controller;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,22 +59,24 @@ public class AccountController {
     }
 	
 	@PostMapping("/registration")
-	public ResponseEntity<String> sendVerifyCode(@RequestBody RegistrationDTO dto){
-		try {
-			accountService.register(dto);
-			return new ResponseEntity<>("Success", HttpStatus.CREATED);
-		}catch(Exception e){
-			return new ResponseEntity<>("Fail", HttpStatus.BAD_REQUEST);
-		}
+	public String processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
+            throws UnsupportedEncodingException, MessagingException {
+        accountService.register(userForm, accountService.getSiteURL(request));       
+        return "register_success";
+    }
+	
+	@GetMapping("/verify")
+	public boolean verifyUser(@PathParam("code") String code) {
+	   return accountService.verify(code);
 	}
 	
-	@PostMapping("/resending-verify-code")
-	public ResponseEntity<String> resendVerifyCode(@RequestBody RegistrationDTO dto){
-		try {
-			accountService.resendVerifyCode(dto);
-			return new ResponseEntity<>("Success", HttpStatus.OK);
-		}catch(Exception e){
-			return new ResponseEntity<>("Fail", HttpStatus.BAD_REQUEST);
-		}
-	}
+//	@PostMapping("/resending-verify-code")
+//	public ResponseEntity<String> resendVerifyCode(@RequestBody RegistrationDTO dto){
+//		try {
+//			accountService.resendVerifyCode(dto);
+//			return new ResponseEntity<>("Success", HttpStatus.OK);
+//		}catch(Exception e){
+//			return new ResponseEntity<>("Fail", HttpStatus.BAD_REQUEST);
+//		}
+//	}
 }

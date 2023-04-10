@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,7 +39,10 @@ public class Account implements UserDetails {
 	@NotNull
 	private String email;
 	@Column(nullable = false, length = 64)
+	@NotNull
 	private String password;
+	@Nationalized
+	@NotNull
 	private String fullname;	
 	private String photo;
 	
@@ -103,7 +107,7 @@ public class Account implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return enabled;
 	}
 
 

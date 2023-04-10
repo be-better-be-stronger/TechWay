@@ -7,7 +7,7 @@ go
 create database techway
 go 
 use techway
-select * from roles
+
 /*	
 2.1. open file application.properties, chinh none thanh update:
 	spring.jpa.hibernate.ddl-auto=none 
@@ -15,6 +15,7 @@ select * from roles
 2.2. run ung dung spring boot
 */
 
+/*
 go
 /*3. doi kieu du lieu varchar(255)mac dinh trong entity(String) thanh nvarchar*/
 ALTER TABLE products ALTER COLUMN name nvarchar(255)
@@ -41,12 +42,17 @@ ALTER TABLE comments ALTER COLUMN content nvarchar(max)
 go
 ALTER TABLE products ALTER COLUMN image nvarchar(max)
 go
-insert into [dbo].[roles] values ('CUST', 'Customer'), ('DIRE', 'Director'), ('STAF', 'Staff')
+insert into [dbo].[roles] values ('CUST', 'Customer'), ('DIRE', 'Director'), ('STAFF', 'Staff')
+DELETE FROM ROLES
+select * from roles
 go
+
+select * from categories
+*/
+go
+
 insert into categories(category_no, category_name) values ('phone', N'Điện thoại'), 
 	('laptop', N'Laptop'), ('tablet', N'Tablet')
-go
-select * from categories
 go
 
 insert into manufacturer values (N'iphone'), (N'Samsung'), (N'Oppo'), 
@@ -54,7 +60,6 @@ insert into manufacturer values (N'iphone'), (N'Samsung'), (N'Oppo'),
 	(N'mobell'), (N'itel'), (N'Masstel')
 go 
 insert into colors values (N'Vàng đồng'), (N'Bạc'), (N'Trắng'), (N'Đỏ'), (N'Xanh dương'), (N'Xanh lá'), (N'Xanh rêu'), (N'Cam'), (N'Xanh ngọc'), (N'Tím'), (N'Tím nhạt'), (N'Đen'), (N'Kem'), (N'Xanh')
-select * from manufacturer
 go
 insert into camera_features values (N'Quay video hiển thị kép'), 
 	(N'HDR'),
@@ -113,6 +118,9 @@ select * from products
 select * from colors
 select * from camera_features
 select * from categories
+select * from manufacturer
 go
 select * from products where category_id = 'phone'
 select * from roles
+select * FROM accounts
+delete from accounts

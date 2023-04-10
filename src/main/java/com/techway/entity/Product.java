@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Nationalized;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,8 +46,10 @@ public class Product implements Serializable{
     private LaptopDetail laptopDetail;
 
 	@Column(name = "name")
+	@Nationalized
 	private String name;	
-	private String image;	
+	@Column(columnDefinition = "ntext")
+	private String images;	
 	private Double price;
 	private Boolean available;
 	
