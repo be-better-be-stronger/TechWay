@@ -12,9 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import com.techway.entity.Account;
-import com.techway.entity.Role;
-import com.techway.repository.AccountRepository;
+import com.techway.repository.UserRepository;
+import com.techway.model.entity.Role;
+import com.techway.model.entity.User;
 import com.techway.repository.RoleRepository;
 
 @DataJpaTest
@@ -24,7 +24,7 @@ public class RoleRepositoryTests {
 	
 	@Autowired
 	private RoleRepository roleRepository;
-	@Autowired AccountRepository accountRepository;
+	@Autowired UserRepository userRepository;
     
     @Test
     public void testCreateRoles() {
@@ -42,10 +42,10 @@ public class RoleRepositoryTests {
     public void testAssignRoleToUser() {
         Long accountId = 4L;
         Integer roleId = 3;
-        Account user = accountRepository.findById(accountId).get();
+        User user = userRepository.findById(accountId).get();
         user.addRole(new Role(roleId));
          
-        Account updatedUser = accountRepository.save(user);
+        User updatedUser = userRepository.save(user);
         assertThat(updatedUser.getRoles()).hasSize(1);         
     }
 }

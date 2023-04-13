@@ -41,14 +41,16 @@ go
 ALTER TABLE comments ALTER COLUMN content nvarchar(max)
 go
 ALTER TABLE products ALTER COLUMN image nvarchar(max)
-go
-insert into [dbo].[roles] values ('CUST', 'Customer'), ('DIRE', 'Director'), ('STAFF', 'Staff')
+
 DELETE FROM ROLES
 select * from roles
 go
 
 select * from categories
 */
+
+go
+insert into [dbo].[roles](role_no, name) values ('CUST', 'Customer'), ('DIRE', 'Director'), ('STAFF', 'Staff')
 go
 
 insert into categories(category_no, category_name) values ('phone', N'Điện thoại'), 
@@ -59,6 +61,7 @@ insert into manufacturer values (N'iphone'), (N'Samsung'), (N'Oppo'),
 	(N'Xiaomi'), (N'Vivo'), (N'realme'), (N'Nokia'), (N'TCL'),
 	(N'mobell'), (N'itel'), (N'Masstel')
 go 
+select * from colors
 insert into colors values (N'Vàng đồng'), (N'Bạc'), (N'Trắng'), (N'Đỏ'), (N'Xanh dương'), (N'Xanh lá'), (N'Xanh rêu'), (N'Cam'), (N'Xanh ngọc'), (N'Tím'), (N'Tím nhạt'), (N'Đen'), (N'Kem'), (N'Xanh')
 go
 insert into camera_features values (N'Quay video hiển thị kép'), 
@@ -122,5 +125,9 @@ select * from manufacturer
 go
 select * from products where category_id = 'phone'
 select * from roles
-select * FROM accounts
+
 delete from accounts
+
+select * FROM accounts
+
+select * from users_roles

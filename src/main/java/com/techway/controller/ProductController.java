@@ -1,5 +1,6 @@
 package com.techway.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.dto.ProductDto;
+import com.techway.model.dto.ProductDto;
 import com.techway.service.IProductService;
 
 @RestController
@@ -31,20 +32,22 @@ public class ProductController {
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity< List<ProductDto>> list(@RequestParam("cid") Optional<Integer> cid) {
-		List<ProductDto> list = null;
+		List<ProductDto> list = new ArrayList<ProductDto>();
 		if (cid.isPresent())
-			list = productService.findAllByCategoryId(cid.get());
+			productService.findAllByCategoryId(cid.get()).forEach(list::add);
 		else
-			list = productService.findAll();
+			productService.findAll().forEach(list::add);
+		if(list.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}	
 	
-	@GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "{id}")
 	public ResponseEntity<ProductDto> getOne(@PathVariable("id") long id) {
 		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
 	
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
 		return new ResponseEntity<>(productService.save(productDto), HttpStatus.CREATED);
 	}

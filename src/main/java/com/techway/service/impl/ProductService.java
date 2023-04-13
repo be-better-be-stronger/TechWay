@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.techway.dto.ProductDto;
-import com.techway.entity.Product;
-import com.techway.exception.ProductNotFound;
+import com.techway.exception.ResourceNotFoundException;
+import com.techway.model.dto.ProductDto;
+import com.techway.model.entity.Product;
 import com.techway.repository.CategoryRepository;
 import com.techway.repository.ColorRepository;
 import com.techway.repository.ManufacturerRepository;
@@ -37,7 +37,7 @@ public class ProductService implements IProductService{
 	@Override
 	public ProductDto findById(long id) {
 		Product product = productRepository.findById(id).orElseThrow(
-				() -> new ProductNotFound(String.format("Product Id %d not found", id))
+				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
 				);
 		return entityToProductDto(product);
 	}
@@ -51,7 +51,7 @@ public class ProductService implements IProductService{
 	@Override
 	public void disable(long id) {
 		Product product = productRepository.findById(id).orElseThrow(
-				() -> new ProductNotFound(String.format("Product Id %d not found", id))
+				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
 				);
 		product.setAvailable(false);
 		productRepository.save(product);
@@ -68,10 +68,10 @@ public class ProductService implements IProductService{
 	@Override
 	public ProductDto update(long id, ProductDto productDto) {
 		Product product = productRepository.findById(id).orElseThrow(
-				() -> new ProductNotFound(String.format("Product Id %d not found", id))
+				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
 				);
 		product.setName(productDto.getName());
-		product.setImage(productDto.getImage());
+		product.setImages(productDto.getImage());
 		product.setPrice(productDto.getPrice());
 		product.setAvailable(productDto.getAvailable());
 		product.setCategory(categoryRepository.findById(productDto.getCategoryId()).get());
@@ -84,7 +84,7 @@ public class ProductService implements IProductService{
 	private Product productDtoToEntity(ProductDto productDto) {
 		Product product = new Product();
 		product.setName(productDto.getName());
-		product.setImage(productDto.getImage());
+		product.setImages(productDto.getImage());
 		product.setPrice(productDto.getPrice());
 		product.setAvailable(productDto.getAvailable());
 		product.setCreatedDate(productDto.getCreatedDate());
@@ -98,14 +98,13 @@ public class ProductService implements IProductService{
 		ProductDto productDto = new ProductDto();
 		productDto.setId(savedProduct.getId());
 		productDto.setName(savedProduct.getName());
-		productDto.setImage(savedProduct.getImage());
+		productDto.setImage(savedProduct.getImages());
 		productDto.setPrice(savedProduct.getPrice());
 		productDto.setAvailable(savedProduct.getAvailable());
 		productDto.setCreatedDate(savedProduct.getCreatedDate());
 		productDto.setCategoryId(savedProduct.getCategory().getId());
 		productDto.setManufacturerId(savedProduct.getManufacturer().getId());
 		productDto.setColorId(savedProduct.getColor().getId());
-		System.out.println("createdDate: " + productDto.getCreatedDate());
 		return  productDto;
 	}
 
