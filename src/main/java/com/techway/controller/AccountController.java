@@ -16,10 +16,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,19 +36,26 @@ import com.techway.service.impl.UserService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
-public class AuthController {
+public class AccountController {
 	@Autowired
 	AuthenticationManager authenticationManager;
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 	@Autowired
 	UserService userService;
+	@Autowired
+	HttpServletRequest request;
 	
 	@GetMapping
 	public ResponseEntity<List<AccountDto>> getAllAccounts() {
 		List<AccountDto> accounts = userService.findAll();
 		return new ResponseEntity<>(accounts, HttpStatus.OK);
 	}
+	@GetMapping("/{id}")
+	public ResponseEntity<AccountDto> getOne(@PathVariable("id") Long id) {
+		AccountDto account = userService.findById(id);
+		return new ResponseEntity<>(account, HttpStatus.OK);
+	} 
 	
 	@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
@@ -72,7 +80,9 @@ public class AuthController {
 	@PostMapping("/registration")
 	public String processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
-        userService.register(userForm, userService.getSiteURL(request));       
+        userService.register(userForm, userService.getSiteURL(request));  
+        String email = request.getRemoteUser();
+        System.out.println(email);
         return "register_success";
     }
 	
@@ -80,5 +90,10 @@ public class AuthController {
 	public boolean verifyUser(@PathParam("code") String code) {
 	   return userService.verify(code);
 	}
-
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
+		AccountDto account = userService.findById(id);
+		return new ResponseEntity<>(account, HttpStatus.OK);
+	} 
 }

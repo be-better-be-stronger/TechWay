@@ -71,6 +71,7 @@ public class UserService implements IUserService{
          
     }
     
+    
     @Override
     public String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
@@ -93,6 +94,15 @@ public class UserService implements IUserService{
     public AccountDto get(Long id) {
         User user = userRepository.findById(id).get();
         return entityToAccountDto(user);
+    }
+    
+    
+	@Override
+    public AccountDto findByEmail(String email) {
+    	User user = userRepository.findByEmail(email).orElseThrow(
+				() -> new ResourceNotFoundException(String.format("User with email %d not found", email))
+				);
+		return entityToAccountDto(user);
     }
 
 	@Override
@@ -121,7 +131,7 @@ public class UserService implements IUserService{
 	    helper.setSubject(subject);
 	     
 	    content = content.replace("[[name]]", user.getFullname());
-	    String verifyURL = siteURL + "/api/v1/accounts/verify?code=" + user.getVerificationCode();
+	    String verifyURL = siteURL + "/api/v1/auth/verify?code=" + user.getVerificationCode();
 	     
 	    content = content.replace("[[URL]]", verifyURL);
 	     
@@ -132,7 +142,7 @@ public class UserService implements IUserService{
 	}
     
     private User registrationDtoToEntity(RegistrationDTO dto) {
-    	Role role = roleRepository.findByName(ERole.ROLE_CUST).orElseThrow(
+    	Role role = roleRepository.findByName("ROLE_CUST").orElseThrow(
     			() -> new ResourceNotFoundException(String.format("Role %s not exist", ERole.ROLE_CUST))
     			);
     	User user = new User();
@@ -155,12 +165,15 @@ public class UserService implements IUserService{
     			Role::getName).collect(Collectors.toSet()));    	
     	return accountDto;
     }
-    @Override
-	public User findByEmail(String email) {
-		return userRepository.findByEmail(email).orElseThrow(
-				() -> new ResourceNotFoundException(String.format("Account with email %s not found", email))
+ 
+
+	@Override
+	public AccountDto findById(Long id) {
+		User user = userRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(String.format("User with id %d not found", id))
 				);
+		return entityToAccountDto(user);
 	}
-    
+
 
 }

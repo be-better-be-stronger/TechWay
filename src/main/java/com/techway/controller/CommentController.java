@@ -39,9 +39,9 @@ public class CommentController {
 	
 	//create new Comment for a Product
 	@PostMapping("/product/{id}")
-	public ResponseEntity<Comment> createComment(@PathVariable(value = "id") Long productId,
+	public ResponseEntity<Comment> createComment(@PathVariable("userId") Long userId, @PathVariable(value = "id") Long productId,
 			@RequestBody Comment commentRequest) {
-		Comment comment = commentService.save(productId, commentRequest);
+		Comment comment = commentService.save(userId, productId, commentRequest);
 		return new ResponseEntity<>(comment, HttpStatus.CREATED);
 	}
 	

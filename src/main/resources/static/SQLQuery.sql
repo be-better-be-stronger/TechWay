@@ -50,7 +50,7 @@ select * from categories
 */
 
 go
-insert into [dbo].[roles](role_no, name) values ('CUST', 'Customer'), ('DIRE', 'Director'), ('STAFF', 'Staff')
+insert into [dbo].[roles] values ('ROLE_CUST'), ('ROLE_DIRE'), ('ROLE_STAFF')
 go
 
 insert into categories(category_no, category_name) values ('phone', N'Điện thoại'), 
@@ -123,11 +123,12 @@ select * from camera_features
 select * from categories
 select * from manufacturer
 go
-select * from products where category_id = 'phone'
+
 select * from roles
+
+delete from user_roles where user_id = 2
 
 delete from accounts
 
-select * FROM accounts
-
-select * from users_roles
+select * FROM users
+select * from user_roles

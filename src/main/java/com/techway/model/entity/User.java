@@ -28,7 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "accounts")
+@Table(name = "users")
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -43,9 +43,8 @@ public class User implements Serializable {
 	@Email
 	private String email;
 	
-	@Column(nullable = false, length = 20)
+	
 	@NotNull
-	@Size(max = 20)
 	private String password;
 	
 	@Nationalized

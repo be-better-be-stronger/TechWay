@@ -10,6 +10,6 @@ public interface ICommentService {
 
 	Comment findBytId(Long id);
 
-	Comment save(Long productId, Comment commentRequest);
+	Comment save(Long userId, Long productId, Comment commentRequest);
 
 }

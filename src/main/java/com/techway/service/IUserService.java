@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.techway.model.dto.AccountDto;
-import com.techway.model.entity.User;
 
 public interface IUserService {
 
@@ -14,6 +13,7 @@ public interface IUserService {
 	List<AccountDto> findAll();
 	AccountDto get(Long id);
 	AccountDto updateAccount(Long accountId, AccountDto account);
-	User findByEmail(String email);
+	AccountDto findById(Long id);
+	AccountDto findByEmail(String email);
 	
 }

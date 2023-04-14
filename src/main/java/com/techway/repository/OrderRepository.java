@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.techway.model.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, String> {
-	@Query("select o from Order o where o.account.email=?1")
+	@Query("select o from Order o where o.user.email=?1")
 	List<Order> findByEmail(String email);
 
 }
