@@ -9,4 +9,8 @@ import com.techway.model.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
 	List<Product> findAllByCategoryId(int cid);
+
+	List<Product> findByAvailable(Boolean available);
+
+	List<Product> findByNameContaining(String name);
 }

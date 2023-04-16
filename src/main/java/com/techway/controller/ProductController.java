@@ -26,37 +26,49 @@ import com.techway.service.IProductService;
 @CrossOrigin("*")
 @RequestMapping("/api/v1/products")
 public class ProductController {
-	
+
 	@Autowired
 	IProductService productService;
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity< List<ProductDto>> list(@RequestParam("cid") Optional<Integer> cid) {
-		List<ProductDto> list = new ArrayList<ProductDto>();
-		if (cid.isPresent())
-			productService.findAllByCategoryId(cid.get()).forEach(list::add);
+	@GetMapping("/name")
+	public ResponseEntity<List<ProductDto>> findByName(@RequestParam(required = false) String name){
+		List<ProductDto> products = new ArrayList<>();
+		if(name == null)
+			productService.findByNameContaining(name).forEach(products::add);
 		else
-			productService.findAll().forEach(list::add);
-		if(list.isEmpty())
+			productService.findAll().forEach(products::add);		
+		if (products.isEmpty())
+		      return new ResponseEntity<>(HttpStatus.NO_CONTENT);		    
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<ProductDto>> list(@RequestParam("cid") Optional<Integer> cid) {
+		List<ProductDto> products = new ArrayList<ProductDto>();
+		if (cid.isPresent())
+			productService.findAllByCategoryId(cid.get()).forEach(products::add);
+		else
+			productService.findByAvailable().forEach(products::add);
+		if (products.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}	
-	
-	@GetMapping(value = "{id}")
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
 	public ResponseEntity<ProductDto> getOne(@PathVariable("id") long id) {
 		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
 		return new ResponseEntity<>(productService.save(productDto), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ProductDto> update(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
 		return new ResponseEntity<>(productService.update(id, productDto), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		productService.disable(id);

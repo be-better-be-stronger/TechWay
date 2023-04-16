@@ -15,6 +15,8 @@ import com.techway.repository.ColorRepository;
 import com.techway.repository.ManufacturerRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.service.IProductService;
+
+
 @Service
 public class ProductService implements IProductService{
 	
@@ -27,11 +29,25 @@ public class ProductService implements IProductService{
 	@Autowired
 	ColorRepository colorRepository;
 
-
+	@Override
+	public List<ProductDto> findByNameContaining(String name) {
+		List<ProductDto> products = productRepository.findByNameContaining(name)
+				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+		return products;
+	}
+	
 	@Override
 	public List<ProductDto> findAll() {
-		List<Product> products = productRepository.findAll();
-		return products.stream().map(p->entityToProductDto(p)).collect(Collectors.toList());
+		List<ProductDto> products = productRepository.findAll()
+				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+		return products;
+	}
+	
+	@Override
+	public List<ProductDto> findByAvailable() {
+		List<ProductDto> products = productRepository.findByAvailable(true)
+				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+		return products;
 	}
 
 	@Override
@@ -110,7 +126,4 @@ public class ProductService implements IProductService{
 
 	
 
-	
-	
-	
 }

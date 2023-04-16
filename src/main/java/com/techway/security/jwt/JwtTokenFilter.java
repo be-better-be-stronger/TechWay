@@ -1,14 +1,19 @@
 package com.techway.security.jwt;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.techway.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -90,25 +95,28 @@ public class JwtTokenFilter extends OncePerRequestFilter{
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
  
-    private UserDetails getUserDetailsFromToken(String token) {    	
-    	User userDetails = new User();
+    private UserDetails getUserDetailsFromToken(String token) {
+        UserDetailsImpl userDetails = new UserDetailsImpl();
         Claims claims = jwtUtil.parseClaims(token);
         String subject = (String) claims.get(Claims.SUBJECT);
         String roles = (String) claims.get("roles");
          
         roles = roles.replace("[", "").replace("]", "");
         String[] roleNames = roles.split(",");
-         
-        for (String aRoleName : roleNames) {
-            userDetails.addRole(new Role(aRoleName));
-        }
+        userDetails.addRole(
+                Arrays.stream(roleNames).map(roleName-> new SimpleGrantedAuthority(roleName)).collect(Collectors.toList())
+        );
+
+//        for (String aRoleName : roleNames) {
+//            userDetails.addRole(new SimpleGrantedAuthority(aRoleName));
+//        }
          
         String[] jwtSubject = subject.split(",");
      
         userDetails.setId(Long.parseLong(jwtSubject[0]));
         userDetails.setEmail(jwtSubject[1]);
      
-        return (UserDetails) userDetails;
+        return userDetails;
     }
 
 }

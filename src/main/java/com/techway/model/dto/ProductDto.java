@@ -17,7 +17,7 @@ public class ProductDto {
 	private String image;
 	private double price;
 	private Boolean available;
-	private Date createdDate;
+	private Date createdDate = new Date();
 	private int categoryId;
 	private int manufacturerId;
 	private int colorId;

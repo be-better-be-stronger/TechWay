@@ -57,7 +57,6 @@ public class User implements Serializable {
 	@Column(name = "verification_code", length = 50)
     private String verificationCode;
      
-    @SuppressWarnings("unused")
 	private boolean enabled;
  
 	public User(String email, String password) {

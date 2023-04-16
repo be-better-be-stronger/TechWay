@@ -122,13 +122,18 @@ select * from colors
 select * from camera_features
 select * from categories
 select * from manufacturer
-go
+insert into products values()
 
 select * from roles
 
 delete from user_roles where user_id = 2
 
-delete from accounts
+delete from users
 
 select * FROM users
 select * from user_roles
+
+select * from comments
+select * from products
+insert into comments (content, product_id, created_by) values(N'dfhweioafhewi', 1, 1)
+insert into products(product_no, name, [images], price, available, category_id, manufacturer_id, color_id) values('asdfads', 'ss s20', 'photos', 99, 1, 1, 1, 1)

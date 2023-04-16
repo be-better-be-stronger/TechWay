@@ -1,14 +1,21 @@
 package com.techway.model.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -25,4 +32,16 @@ public class CameraFeature implements Serializable{
 	
 	@Nationalized
 	String name;
+	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
+			mappedBy = "backCameraFeatures")
+	@JsonIgnore
+	private Set<PhoneDetails> backCameraPhones = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
+			mappedBy = "frontCameraFeatures")
+	@JsonIgnore
+	private Set<PhoneDetails> frontCameraPhones = new HashSet<>();
 }

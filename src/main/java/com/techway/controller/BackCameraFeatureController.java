@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.model.entity.CameraFeature;
-import com.techway.repository.BackCameraFeatureRepository;
+import com.techway.repository.CameraFeatureRepository;
 
 @CrossOrigin("*")
 @RestController
@@ -22,7 +22,7 @@ import com.techway.repository.BackCameraFeatureRepository;
 public class BackCameraFeatureController {
 	
 	@Autowired
-	BackCameraFeatureRepository bcfRepo;
+	CameraFeatureRepository bcfRepo;
 	@GetMapping
 	public List<CameraFeature> list(){
 		return bcfRepo.findAll();

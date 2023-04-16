@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.ERole;
 import com.techway.model.dto.AccountDto;
 import com.techway.model.dto.RegistrationDTO;
 import com.techway.model.entity.Role;
@@ -143,7 +142,7 @@ public class UserService implements IUserService{
     
     private User registrationDtoToEntity(RegistrationDTO dto) {
     	Role role = roleRepository.findByName("ROLE_CUST").orElseThrow(
-    			() -> new ResourceNotFoundException(String.format("Role %s not exist", ERole.ROLE_CUST))
+    			() -> new ResourceNotFoundException(String.format("Role %s not exist", "ROLE_CUST"))
     			);
     	User user = new User();
     	user.setEmail(dto.getEmail());

@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,13 +39,13 @@ public class Product implements Serializable{
 	@NotNull
 	private String productNo;
 	
-	@OneToOne(mappedBy = "product")
-	@PrimaryKeyJoinColumn
-    private PhoneDetail phoneDetail;
-	
-	@OneToOne(mappedBy = "product")
-	@PrimaryKeyJoinColumn
-    private LaptopDetail laptopDetail;
+//	@OneToOne(mappedBy = "product")
+//	@PrimaryKeyJoinColumn
+//    private PhoneDetail phoneDetail;
+//	
+//	@OneToOne(mappedBy = "product")
+//	@PrimaryKeyJoinColumn
+//    private LaptopDetail laptopDetail;
 
 	@Column(name = "name")
 	@Nationalized
@@ -58,7 +56,7 @@ public class Product implements Serializable{
 	private Boolean available;
 	
 	@Temporal(TemporalType.DATE)
-	private Date createdDate = new Date();	
+	private Date createdDate = new Date();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")

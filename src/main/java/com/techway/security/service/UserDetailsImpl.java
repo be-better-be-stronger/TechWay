@@ -1,5 +1,6 @@
 package com.techway.security.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class UserDetailsImpl implements UserDetails{
 	@JsonIgnore
 	private String password;
 	
-	private Collection<? extends GrantedAuthority> authorities;
+	private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
 	
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream().map(
@@ -77,4 +78,7 @@ public class UserDetailsImpl implements UserDetails{
 		return true;
 	}
 
+	public void addRole(List<SimpleGrantedAuthority> ls) {
+		this.authorities = ls;
+	}
 }

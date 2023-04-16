@@ -80,9 +80,7 @@ public class AccountController {
 	@PostMapping("/registration")
 	public String processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
-        userService.register(userForm, userService.getSiteURL(request));  
-        String email = request.getRemoteUser();
-        System.out.println(email);
+        userService.register(userForm, userService.getSiteURL(request));
         return "register_success";
     }
 	

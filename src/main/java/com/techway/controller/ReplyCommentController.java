@@ -1,6 +1,9 @@
 package com.techway.controller;
 
+import java.security.Principal;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.model.dto.ReplyCommentDto;
-import com.techway.model.entity.Comment;
-import com.techway.model.entity.ReplyComment;
-import com.techway.model.entity.User;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.UserRepository;
 import com.techway.service.IReplyCommentService;
@@ -26,6 +26,7 @@ import com.techway.service.IReplyCommentService;
 @CrossOrigin("*")
 @RequestMapping("/api/v1/replies")
 public class ReplyCommentController {
+
 	@Autowired
 	IReplyCommentService replyCommentService;
 	@Autowired
@@ -34,9 +35,15 @@ public class ReplyCommentController {
 	CommentRepository commentRepository;
 	
 	@GetMapping("/user/{userId}")
-	public ResponseEntity<List<ReplyComment>> getCommentsByUserId(@PathVariable("userId") Long userId){
-		List<ReplyComment> list = replyCommentService.findAllByUserId(userId);
-		return new ResponseEntity<List<ReplyComment>>(list, HttpStatus.OK);
+	public ResponseEntity<List<ReplyCommentDto>> getCommentsByUserId(@PathVariable("userId") Long userId){
+		List<ReplyCommentDto> list = replyCommentService.findAllByUserId(userId);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/comment/{commentId}")
+	public ResponseEntity<List<ReplyCommentDto>> getCommentsByCommentId(@PathVariable("commentId") Long commentId, Principal principal){
+		List<ReplyCommentDto> list = replyCommentService.findAllByCommentId(commentId);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	@PostMapping()
@@ -45,7 +52,10 @@ public class ReplyCommentController {
 		return new ResponseEntity<ReplyCommentDto>(reply, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping("/{replyId}")
+	public ResponseEntity<Boolean> deleteReply(@PathVariable("replyId") long replyId){
+		return new ResponseEntity<Boolean>(replyCommentService.delete(replyId), HttpStatus.OK);
+	}
 	
 	
 }
