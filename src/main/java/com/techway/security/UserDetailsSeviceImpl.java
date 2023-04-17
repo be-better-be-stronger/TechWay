@@ -1,4 +1,4 @@
-package com.techway.security.service;
+package com.techway.security;
 
 import javax.transaction.Transactional;
 

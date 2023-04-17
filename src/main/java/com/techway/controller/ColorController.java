@@ -14,38 +14,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.model.entity.Color;
-import com.techway.repository.ColorRepository;
+import com.techway.service.IColorSerrvice;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/colors")
+@RequestMapping("/api/v1/colors")
 public class ColorController {
 	
 	@Autowired
-	ColorRepository colorRepository;
+	IColorSerrvice colorService;
 	
 	@GetMapping
 	public List<Color> list(){
-		return colorRepository.findAll();
+		return colorService.findAll();
 	}
 
 	@GetMapping("{id}")
 	public Color getOne(@PathVariable("id") Integer id) {
-		return colorRepository.findById(id).get();
+		return colorService.findById(id);
 	}
 
 	@PostMapping
 	public Color create(@RequestBody Color color) {
-		return colorRepository.save(color);
+		return colorService.save(color);
 	}
 
 	@PutMapping("{id}")
 	public Color update(@PathVariable("id") Integer id, @RequestBody Color color) {
-		return colorRepository.save(color);
+		return colorService.update(id, color);
 	}
 
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable("id") Integer id) {
-		colorRepository.deleteById(id);
+		colorService.deleteById(id);
 	}
 }

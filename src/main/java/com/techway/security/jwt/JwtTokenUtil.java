@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.techway.security.service.UserDetailsImpl;
+import com.techway.security.UserDetailsImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,7 +23,7 @@ public class JwtTokenUtil {
     
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
-     
+      
     public String generateAccessToken(UserDetailsImpl user) {
     	
         return Jwts.builder()

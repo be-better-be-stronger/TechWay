@@ -1,4 +1,4 @@
-package com.techway.model.dto;
+package com.techway.model.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

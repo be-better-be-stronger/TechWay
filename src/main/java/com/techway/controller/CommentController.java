@@ -1,15 +1,12 @@
 package com.techway.controller;
 
-import java.security.Principal;
 import java.util.List;
 
-import com.techway.security.service.UserDetailsImpl;
+import com.techway.security.UserDetailsImpl;
 import com.techway.testCreateAnnotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.techway.model.entity.Comment;

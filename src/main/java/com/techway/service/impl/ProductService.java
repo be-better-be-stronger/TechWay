@@ -1,6 +1,5 @@
 package com.techway.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.dto.ProductDto;
+import com.techway.model.dto.request.ProductRequest;
+import com.techway.model.dto.response.ProductResponse;
 import com.techway.model.entity.Product;
 import com.techway.repository.CategoryRepository;
 import com.techway.repository.ColorRepository;
@@ -30,98 +30,112 @@ public class ProductService implements IProductService{
 	ColorRepository colorRepository;
 
 	@Override
-	public List<ProductDto> findByNameContaining(String name) {
-		List<ProductDto> products = productRepository.findByNameContaining(name)
-				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+	public List<ProductResponse> findByNameContaining(String name) {
+		List<ProductResponse> products = productRepository.findByNameContaining(name)
+				.stream().map(product -> entityToProductResponse(product)).collect(Collectors.toList());
 		return products;
 	}
 	
 	@Override
-	public List<ProductDto> findAll() {
-		List<ProductDto> products = productRepository.findAll()
-				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+	public List<ProductResponse> findAll() {
+		List<ProductResponse> products = productRepository.findAll()
+				.stream().map(product -> entityToProductResponse(product)).collect(Collectors.toList());
 		return products;
 	}
 	
 	@Override
-	public List<ProductDto> findByAvailable() {
-		List<ProductDto> products = productRepository.findByAvailable(true)
-				.stream().map(product -> entityToProductDto(product)).collect(Collectors.toList());
+	public List<ProductResponse> findByAvailable() {
+		List<ProductResponse> products = productRepository.findByAvailable(true)
+				.stream().map(product -> entityToProductResponse(product)).collect(Collectors.toList());
 		return products;
 	}
 
 	@Override
-	public ProductDto findById(long id) {
-		Product product = productRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
-				);
-		return entityToProductDto(product);
+	public ProductResponse findById(long id) {
+		Product product = productRepository.findById(id).get();
+		return entityToProductResponse(product);
 	}
 
 	@Override
-	public List<ProductDto> findAllByCategoryId(int cid) {
+	public List<ProductResponse> findAllByCategoryId(int cid) {
 		List<Product> products = productRepository.findAllByCategoryId(cid);
-		return products.stream().map(p->entityToProductDto(p)).collect(Collectors.toList());
+		return products.stream().map(p->entityToProductResponse(p)).collect(Collectors.toList());
 	}
 
 	@Override
-	public void disable(long id) {
+	public boolean disable(long id) {
 		Product product = productRepository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
 				);
 		product.setAvailable(false);
 		productRepository.save(product);
+		return true;
 	}
 
 	@Override
-	public ProductDto save(ProductDto productDto) {
-		Product product = productDtoToEntity(productDto);
-		product.setCreatedDate(new Date());
-		Product savedProduct = productRepository.save(product);
-		return entityToProductDto(savedProduct);
+	public ProductResponse save(ProductRequest productRequest) {
+		Product product = new Product();
+		Product savedProduct = productRepository.save(productDtoToEntity(productRequest, product));
+		return entityToProductResponse(savedProduct);
 	}
 	
 	@Override
-	public ProductDto update(long id, ProductDto productDto) {
+	public ProductResponse update(long id, ProductRequest productRequest) {
 		Product product = productRepository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException(String.format("Product Id %d not found", id))
 				);
-		product.setName(productDto.getName());
-		product.setImages(productDto.getImage());
-		product.setPrice(productDto.getPrice());
-		product.setAvailable(productDto.getAvailable());
-		product.setCategory(categoryRepository.findById(productDto.getCategoryId()).get());
-		product.setManufacturer(manufacturerRepository.findById(productDto.getManufacturerId()).get());
-		product.setColor(colorRepository.findById(productDto.getColorId()).get());
+		product.setProductNo(productRequest.getProductNo());
+		product.setName(productRequest.getName());
+		product.setImages(productRequest.getImage());
+		product.setPrice(productRequest.getPrice());
+		product.setAvailable(productRequest.getAvailable());
+		product.setCategory(categoryRepository.findById(productRequest.getCategoryId()).get());
+		product.setManufacturer(manufacturerRepository.findById(productRequest.getManufacturerId()).get());
+		product.setColor(colorRepository.findById(productRequest.getColorId()).get());
 		productRepository.save(product);		
-		return entityToProductDto(product);
+		return entityToProductResponse(product);
 	}	
 
-	private Product productDtoToEntity(ProductDto productDto) {
-		Product product = new Product();
-		product.setName(productDto.getName());
-		product.setImages(productDto.getImage());
-		product.setPrice(productDto.getPrice());
-		product.setAvailable(productDto.getAvailable());
-		product.setCreatedDate(productDto.getCreatedDate());
-		product.setCategory(categoryRepository.findById(productDto.getCategoryId()).get());
-		product.setManufacturer(manufacturerRepository.findById(productDto.getManufacturerId()).get());
-		product.setColor(colorRepository.findById(productDto.getColorId()).get());
+	private Product productDtoToEntity(ProductRequest productRequest, Product product) {
+		product.setProductNo(productRequest.getProductNo());
+		product.setName(productRequest.getName());
+		product.setImages(productRequest.getImage());
+		product.setPrice(productRequest.getPrice());
+		product.setAvailable(productRequest.getAvailable());
+		product.setCreatedDate(productRequest.getCreatedDate());
+		product.setCategory(categoryRepository.findById(productRequest.getCategoryId()).get());
+		product.setManufacturer(manufacturerRepository.findById(productRequest.getManufacturerId()).get());
+		product.setColor(colorRepository.findById(productRequest.getColorId()).get());
 		return product;
 	}
 	
-	private ProductDto entityToProductDto(Product savedProduct) {
-		ProductDto productDto = new ProductDto();
-		productDto.setId(savedProduct.getId());
-		productDto.setName(savedProduct.getName());
-		productDto.setImage(savedProduct.getImages());
-		productDto.setPrice(savedProduct.getPrice());
-		productDto.setAvailable(savedProduct.getAvailable());
-		productDto.setCreatedDate(savedProduct.getCreatedDate());
-		productDto.setCategoryId(savedProduct.getCategory().getId());
-		productDto.setManufacturerId(savedProduct.getManufacturer().getId());
-		productDto.setColorId(savedProduct.getColor().getId());
-		return  productDto;
+//	private ProductRequest entityToProductDto(Product savedProduct) {
+//		ProductRequest productRequest = new ProductRequest();
+//		productRequest.setId(savedProduct.getId());
+//		productRequest.setName(savedProduct.getName());
+//		productRequest.setImage(savedProduct.getImages());
+//		productRequest.setPrice(savedProduct.getPrice());
+//		productRequest.setAvailable(savedProduct.getAvailable());
+//		productRequest.setCreatedDate(savedProduct.getCreatedDate());
+//		productRequest.setCategoryId(savedProduct.getCategory().getId());
+//		productRequest.setManufacturerId(savedProduct.getManufacturer().getId());
+//		productRequest.setColorId(savedProduct.getColor().getId());
+//		return  productRequest;
+//	}
+	
+	private ProductResponse entityToProductResponse(Product entity) {
+		ProductResponse response = new ProductResponse();
+		response.setId(entity.getId());
+		response.setProductNo(entity.getProductNo());
+		response.setName(entity.getName());
+		response.setImages(entity.getImages());
+		response.setPrice(entity.getPrice());
+		response.setAvailable(entity.getAvailable());
+		response.setCreatedDate(entity.getCreatedDate());
+		response.setCategory(entity.getCategory());
+		response.setManufacturer(entity.getManufacturer());
+		response.setColor(entity.getColor());
+		return  response;
 	}
 
 	

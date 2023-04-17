@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.dto.ProductDto;
+import com.techway.model.dto.request.ProductRequest;
+import com.techway.model.dto.response.ProductResponse;
 import com.techway.service.IProductService;
 
 @RestController
@@ -31,8 +32,8 @@ public class ProductController {
 	IProductService productService;
 	
 	@GetMapping("/name")
-	public ResponseEntity<List<ProductDto>> findByName(@RequestParam(required = false) String name){
-		List<ProductDto> products = new ArrayList<>();
+	public ResponseEntity<List<ProductResponse>> findByName(@RequestParam(required = false) String name){
+		List<ProductResponse> products = new ArrayList<>();
 		if(name == null)
 			productService.findByNameContaining(name).forEach(products::add);
 		else
@@ -43,8 +44,8 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductDto>> list(@RequestParam("cid") Optional<Integer> cid) {
-		List<ProductDto> products = new ArrayList<ProductDto>();
+	public ResponseEntity<List<ProductResponse>> list(@RequestParam("cid") Optional<Integer> cid) {
+		List<ProductResponse> products = new ArrayList<>();
 		if (cid.isPresent())
 			productService.findAllByCategoryId(cid.get()).forEach(products::add);
 		else
@@ -55,23 +56,23 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDto> getOne(@PathVariable("id") long id) {
+	public ResponseEntity<ProductResponse> getOne(@PathVariable("id") long id) {
 		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductDto> create(@RequestBody ProductDto productDto) {
-		return new ResponseEntity<>(productService.save(productDto), HttpStatus.CREATED);
+	public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest productRequest) {
+		return new ResponseEntity<>(productService.save(productRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ProductDto> update(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
-		return new ResponseEntity<>(productService.update(id, productDto), HttpStatus.OK);
+	public ResponseEntity<ProductResponse> update(@PathVariable("id") long id, @RequestBody ProductRequest productRequest) {
+		return new ResponseEntity<>(productService.update(id, productRequest), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+	public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
 		productService.disable(id);
-		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 }

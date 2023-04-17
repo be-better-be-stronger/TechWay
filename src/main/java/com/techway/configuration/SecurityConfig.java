@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.techway.security.jwt.JwtTokenFilter;
-import com.techway.security.service.UserDetailsSeviceImpl;
+import com.techway.security.UserDetailsSeviceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.formLogin().disable()
         	.httpBasic().disable()
         	.logout().disable();
+
 	       	
         
         http.authorizeRequests()

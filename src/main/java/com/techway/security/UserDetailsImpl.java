@@ -1,4 +1,4 @@
-package com.techway.security.service;
+package com.techway.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

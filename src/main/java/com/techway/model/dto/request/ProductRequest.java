@@ -1,16 +1,12 @@
-package com.techway.model.dto;
+package com.techway.model.dto.request;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ProductDto {
+public class ProductRequest {
 	private long id;
 	private String productNo;
 	private String name;
@@ -21,6 +17,5 @@ public class ProductDto {
 	private int categoryId;
 	private int manufacturerId;
 	private int colorId;
-	
-	
+
 }

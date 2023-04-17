@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,6 +41,7 @@ public class UserService implements IUserService{
     @Autowired
     RoleRepository roleRepository;
 
+    @Transactional
     public void register(RegistrationDTO dto, String siteURL)
             throws UnsupportedEncodingException, MessagingException {
     	User user = registrationDtoToEntity(dto);
@@ -113,13 +115,13 @@ public class UserService implements IUserService{
 	private void sendVerificationEmail(User user, String siteURL)
 	        throws MessagingException, UnsupportedEncodingException {
 	    String toAddress = user.getEmail();
-	    String fromAddress = "techway.vn";
+	    String fromAddress = "techway.com";
 	    String senderName = "Techway";
 	    String subject = "Please verify your registration";
 	    String content = "Dear [[name]],<br>"
-	            + "Please click the link below to verify your registration:<br>"
+	            + "Please click the link below to verify your registration:</br>"
 	            + "<h3><a href=\"[[URL]]\">VERIFY</a></h3>"
-	            + "Thank you,<br>"
+	            + "Thank you,</br>"
 	            + "Techway";
 //	    target=\"_self\"
 	    MimeMessage message = mailSender.createMimeMessage();

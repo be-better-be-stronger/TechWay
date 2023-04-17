@@ -128,10 +128,14 @@ select * from roles
 
 delete from user_roles where user_id = 2
 
-delete from users
+
+delete from user_roles where user_id = 6
 
 select * FROM users
-select * from user_roles
+
+delete from user_roles
+delete from users
+select * from users
 
 select * from comments
 select * from products

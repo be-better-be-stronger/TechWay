@@ -1,7 +1,6 @@
 package com.techway.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,36 +25,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.model.dto.AccountDto;
-import com.techway.model.dto.AuthRequest;
-import com.techway.model.dto.AuthResponse;
 import com.techway.model.dto.RegistrationDTO;
+import com.techway.model.dto.request.AuthRequest;
+import com.techway.model.dto.response.AuthResponse;
 import com.techway.security.jwt.JwtTokenUtil;
-import com.techway.security.service.UserDetailsImpl;
+import com.techway.security.UserDetailsImpl;
 import com.techway.service.impl.UserService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
-public class AccountController {
+public class AuthController {
+	
 	@Autowired
 	AuthenticationManager authenticationManager;
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 	@Autowired
 	UserService userService;
-	@Autowired
-	HttpServletRequest request;
 	
-	@GetMapping
-	public ResponseEntity<List<AccountDto>> getAllAccounts() {
-		List<AccountDto> accounts = userService.findAll();
-		return new ResponseEntity<>(accounts, HttpStatus.OK);
-	}
-	@GetMapping("/{id}")
-	public ResponseEntity<AccountDto> getOne(@PathVariable("id") Long id) {
-		AccountDto account = userService.findById(id);
-		return new ResponseEntity<>(account, HttpStatus.OK);
-	} 
+	
 	
 	@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {

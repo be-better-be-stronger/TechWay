@@ -13,7 +13,7 @@ import com.techway.repository.CategoryRepository;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 	
 	@Autowired

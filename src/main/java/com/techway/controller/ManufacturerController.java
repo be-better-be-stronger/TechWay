@@ -18,7 +18,7 @@ import com.techway.repository.ManufacturerRepository;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/manufacturers")
+@RequestMapping("/api/v1/manufacturers")
 public class ManufacturerController {
 	@Autowired
 	ManufacturerRepository manufacturerRepository;

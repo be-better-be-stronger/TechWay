@@ -1,4 +1,4 @@
-package com.techway.model.dto;
+package com.techway.model.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

@@ -35,17 +35,8 @@ public class Product implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
 	@NotNull
 	private String productNo;
-	
-//	@OneToOne(mappedBy = "product")
-//	@PrimaryKeyJoinColumn
-//    private PhoneDetail phoneDetail;
-//	
-//	@OneToOne(mappedBy = "product")
-//	@PrimaryKeyJoinColumn
-//    private LaptopDetail laptopDetail;
 
 	@Column(name = "name")
 	@Nationalized
