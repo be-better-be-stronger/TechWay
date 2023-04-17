@@ -8,7 +8,7 @@ public interface IScreenTechService {
 
 	List<ScreenTech> findByNameContaining(String name);
 
-	Iterable<ScreenTech> findAll();
+	List<ScreenTech> findAll();
 
 	ScreenTech findById(long id);
 

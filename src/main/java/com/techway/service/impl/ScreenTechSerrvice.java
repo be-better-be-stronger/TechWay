@@ -24,7 +24,7 @@ public class ScreenTechSerrvice implements IScreenTechService {
 	}
 
 	@Override
-	public Iterable<ScreenTech> findAll() {
+	public List<ScreenTech> findAll() {
 		return screenTechRepository.findAll();
 	}
 
@@ -35,8 +35,7 @@ public class ScreenTechSerrvice implements IScreenTechService {
 
 	@Override
 	public ScreenTech save(ScreenTech o) {
-		// TODO Auto-generated method stub
-		return null;
+		return screenTechRepository.save(o);
 	}
 
 	@Override

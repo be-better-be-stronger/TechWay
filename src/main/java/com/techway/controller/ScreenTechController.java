@@ -22,7 +22,7 @@ import com.techway.service.IScreenTechService;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/api/v1/scrreentechs")
+@RequestMapping("/api/v1/screentechs")
 public class ScreenTechController {
 	@Autowired
 	IScreenTechService screenTechService;
@@ -30,7 +30,7 @@ public class ScreenTechController {
 	@GetMapping
 	public ResponseEntity<List<ScreenTech >> findByName(@RequestParam(required = false) String name){
 		List<ScreenTech> list = new ArrayList<>();
-		if(name == null)
+		if(name != null)
 			screenTechService.findByNameContaining(name).forEach(list::add);
 		else
 			screenTechService.findAll().forEach(list::add);		
@@ -46,7 +46,7 @@ public class ScreenTechController {
 	
 	@PostMapping
 	public ResponseEntity<ScreenTech> create(@RequestBody ScreenTech o) {
-		return new ResponseEntity<ScreenTech>(screenTechService.save(o), HttpStatus.CREATED);
+		return new ResponseEntity(screenTechService.save(o), HttpStatus.CREATED);
 	}
 
 	@PutMapping("{id}")
