@@ -49,15 +49,15 @@ public class Product implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date createdDate = new Date();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "manufacturer_id", nullable = false)
 	private Manufacturer manufacturer;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
 
