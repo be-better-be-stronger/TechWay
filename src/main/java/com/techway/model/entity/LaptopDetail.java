@@ -15,6 +15,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
 import lombok.Data;
 
 @Data
@@ -28,12 +30,13 @@ public class LaptopDetail implements Serializable {
 
 	// @MapsId -> indicates that the primary key values
 	// will be copied from the Product entity
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@MapsId
 	@JoinColumn(name = "product_id")
 	private Product product;
 
 	// Bộ xử lý
+	@Nationalized
 	private String cpu; // cong nghe CPU
 	private int core; // số nhân
 	private int thread; // số luồng
@@ -43,13 +46,16 @@ public class LaptopDetail implements Serializable {
 
 	// Bộ nhớ RAM, Ổ cứng
 	private int ram; // RAM
+	@Nationalized
 	private String type; // loại RAM
 	private int busRAM; // Tốc độ Bus RAM
 	private int maxRAM; // Hỗ trợ RAM tối đa
+	@Nationalized
 	private String ssd;
 
 	// Màn hình
 	float screenWidth; // Màn hình(inch)
+	@Nationalized
 	String screenResolution; // do phan giai man hinh
 	int hz; // tần số quét màn hình
 
@@ -60,7 +66,9 @@ public class LaptopDetail implements Serializable {
 	private Set<ScreenTech> screenTechs = new HashSet<>();
 
 	// Đồ họa và Âm thanh
+	@Nationalized
 	String screenCard; // card màn hình
+	@Nationalized
 	String sound; // Công nghệ âm thanh
 
 	public void addScreenTech(ScreenTech technology) {

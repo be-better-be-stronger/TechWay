@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.model.dto.request.ProductRequest;
-import com.techway.model.dto.response.ProductResponse;
+import com.techway.model.entity.Product;
 import com.techway.service.IProductService;
 
 @RestController
@@ -32,8 +32,8 @@ public class ProductController {
 	IProductService productService;
 	
 	@GetMapping("/name")
-	public ResponseEntity<List<ProductResponse>> findByName(@RequestParam(required = false) String name){
-		List<ProductResponse> products = new ArrayList<>();
+	public ResponseEntity<List<Product>> findByName(@RequestParam(required = false) String name){
+		List<Product> products = new ArrayList<>();
 		if(name == null)
 			productService.findByNameContaining(name).forEach(products::add);
 		else
@@ -44,8 +44,8 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductResponse>> list(@RequestParam("cid") Optional<Integer> cid) {
-		List<ProductResponse> products = new ArrayList<>();
+	public ResponseEntity<List<Product>> list(@RequestParam("cid") Optional<Integer> cid) {
+		List<Product> products = new ArrayList<>();
 		if (cid.isPresent())
 			productService.findAllByCategoryId(cid.get()).forEach(products::add);
 		else
@@ -56,17 +56,17 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductResponse> getOne(@PathVariable("id") long id) {
+	public ResponseEntity<Product> getOne(@PathVariable("id") long id) {
 		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest productRequest) {
+	public ResponseEntity<Product> create(@RequestBody ProductRequest productRequest) {
 		return new ResponseEntity<>(productService.save(productRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ProductResponse> update(@PathVariable("id") long id, @RequestBody ProductRequest productRequest) {
+	public ResponseEntity<Product> update(@PathVariable("id") long id, @RequestBody ProductRequest productRequest) {
 		return new ResponseEntity<>(productService.update(id, productRequest), HttpStatus.OK);
 	}
 
