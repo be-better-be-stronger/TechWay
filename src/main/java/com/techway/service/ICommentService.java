@@ -2,7 +2,7 @@ package com.techway.service;
 
 import java.util.List;
 
-import com.techway.model.entity.Comment;
+import com.techway.entity.Comment;
 
 public interface ICommentService {
 //

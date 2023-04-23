@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.techway.repository.UserRepository;
-import com.techway.model.entity.Role;
-import com.techway.model.entity.User;
+import com.techway.entity.Role;
+import com.techway.entity.User;
 import com.techway.repository.RoleRepository;
 
 @DataJpaTest

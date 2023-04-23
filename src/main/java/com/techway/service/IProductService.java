@@ -2,8 +2,9 @@ package com.techway.service;
 
 import java.util.List;
 
-import com.techway.model.dto.request.ProductRequest;
-import com.techway.model.entity.Product;
+import com.techway.dto.request.ProductRequest;
+import com.techway.entity.Color;
+import com.techway.entity.Product;
 
 public interface IProductService {	
 	Product findById(long id);
@@ -13,5 +14,6 @@ public interface IProductService {
 	boolean disable(long id);
 	List<Product> findByAvailable();
 	List<Product> findByNameContaining(String name);
+	Color getColors(String productNo);
 	List<Product> findAll();
 }

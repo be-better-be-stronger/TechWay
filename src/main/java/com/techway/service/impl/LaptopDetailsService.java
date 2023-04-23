@@ -7,10 +7,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techway.dto.request.LaptopDetailsRequest;
+import com.techway.entity.LaptopDetail;
+import com.techway.entity.ScreenTech;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.dto.request.LaptopDetailsRequest;
-import com.techway.model.entity.LaptopDetail;
-import com.techway.model.entity.ScreenTech;
 import com.techway.repository.LaptopDetailRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.ScreenTechRepository;
@@ -58,7 +58,7 @@ public class LaptopDetailsService implements ILaptopDetailsService{
 		entity.setScreenResolution(request.getScreenResolution());
 		entity.setHz(request.getHz());
 		Set<ScreenTech> set = new HashSet<ScreenTech>();
-		Set<Long> setIds = request.getScreenTechIds();
+		Set<Long> setIds = request.getScreenTechs();
 		setIds.stream().forEach(id -> set.add(screenTechRepository.findById(id).get()));
 		entity.setScreenTechs(set);
 		entity.setScreenCard(request.getScreenCard());

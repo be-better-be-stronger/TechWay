@@ -2,14 +2,14 @@ package com.techway.service.impl;
 
 import java.util.List;
 
-import com.techway.model.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.techway.entity.Comment;
+import com.techway.entity.Product;
+import com.techway.entity.User;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.entity.Comment;
-import com.techway.model.entity.User;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.UserRepository;

@@ -2,8 +2,8 @@ package com.techway.service;
 
 import java.util.List;
 
-import com.techway.model.dto.request.LaptopDetailsRequest;
-import com.techway.model.entity.LaptopDetail;
+import com.techway.dto.request.LaptopDetailsRequest;
+import com.techway.entity.LaptopDetail;
 
 public interface ILaptopDetailsService {
 

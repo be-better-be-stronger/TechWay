@@ -15,11 +15,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.techway.dto.AccountDto;
+import com.techway.dto.RegistrationDTO;
+import com.techway.entity.Role;
+import com.techway.entity.User;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.dto.AccountDto;
-import com.techway.model.dto.RegistrationDTO;
-import com.techway.model.entity.Role;
-import com.techway.model.entity.User;
 import com.techway.repository.RoleRepository;
 import com.techway.repository.UserRepository;
 import com.techway.service.IUserService;

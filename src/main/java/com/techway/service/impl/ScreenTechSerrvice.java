@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techway.entity.ScreenTech;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.entity.ScreenTech;
 import com.techway.repository.LaptopDetailRepository;
 import com.techway.repository.ScreenTechRepository;
 import com.techway.service.IScreenTechService;

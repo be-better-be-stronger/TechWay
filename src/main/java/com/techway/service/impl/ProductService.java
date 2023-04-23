@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techway.dto.request.ProductRequest;
+import com.techway.entity.Color;
+import com.techway.entity.Product;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.dto.request.ProductRequest;
-import com.techway.model.entity.Product;
 import com.techway.repository.CategoryRepository;
 import com.techway.repository.ColorRepository;
 import com.techway.repository.ManufacturerRepository;
@@ -47,7 +48,9 @@ public class ProductService implements IProductService{
 
 	@Override
 	public Product findById(long id) {
-		Product product = productRepository.findById(id).get();
+		Product product = productRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(String.format("Product with id %d not found", id))
+				);
 		return product;
 	}
 
@@ -103,7 +106,15 @@ public class ProductService implements IProductService{
 		product.setColor(colorRepository.findById(productRequest.getColorId()).get());
 		return product;
 	}
-	
+
+	@Override
+	public Color getColors(String productNo) {
+		Color colors =productRepository.findColorsByProductNo(productNo);
+		System.out.println(colors);
+		return colors;
+	}
+
+
 //	private ProductRequest entityToProductDto(Product savedProduct) {
 //		ProductRequest productRequest = new ProductRequest();
 //		productRequest.setId(savedProduct.getId());

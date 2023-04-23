@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.techway.entity.Role;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.entity.Role;
 import com.techway.repository.RoleRepository;
 import com.techway.service.IRoleService;
 

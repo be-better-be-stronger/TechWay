@@ -2,14 +2,15 @@ package com.techway.controller;
 
 import java.util.List;
 
+import com.techway.createAnnotation.CurrentUser;
+import com.techway.entity.Comment;
 import com.techway.security.UserDetailsImpl;
-import com.techway.testCreateAnnotation.CurrentUser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.techway.model.entity.Comment;
 import com.techway.service.ICommentService;
 
 @CrossOrigin("*")
@@ -45,6 +46,6 @@ public class CommentController {
     public ResponseEntity<Integer> deleteComment(@PathVariable(value = "id") Long productId,
                                                  @CurrentUser UserDetailsImpl loginUser) {
         Integer deletedCommentStatus = commentService.delete(loginUser.getId(), productId);
-        return new ResponseEntity<>(deletedCommentStatus, HttpStatus.CREATED);
+        return new ResponseEntity<>(deletedCommentStatus, HttpStatus.OK);
     }
 }

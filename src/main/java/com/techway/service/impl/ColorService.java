@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.techway.entity.Color;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.entity.Color;
 import com.techway.repository.ColorRepository;
 import com.techway.service.IColorSerrvice;
 @Service

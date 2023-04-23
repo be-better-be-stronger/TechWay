@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.dto.ReplyCommentDto;
+import com.techway.dto.ReplyCommentDto;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.UserRepository;
 import com.techway.service.IReplyCommentService;

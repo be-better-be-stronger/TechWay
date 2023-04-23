@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.techway.model.dto.request.LaptopDetailsRequest;
-import com.techway.model.entity.LaptopDetail;
+import com.techway.dto.request.LaptopDetailsRequest;
+import com.techway.entity.LaptopDetail;
 import com.techway.service.ILaptopDetailsService;
 
 @Controller
@@ -46,6 +46,6 @@ public class LaptopDetailsController {
 	@PutMapping("{productId}")
 	public ResponseEntity<LaptopDetail> update(@PathVariable("productId") long id,
 			@RequestBody LaptopDetailsRequest request) {
-		return new ResponseEntity<LaptopDetail>(laptopDetailsService.update(id, request), HttpStatus.CREATED);
+		return new ResponseEntity<LaptopDetail>(laptopDetailsService.update(id, request), HttpStatus.OK);
 	}
 }

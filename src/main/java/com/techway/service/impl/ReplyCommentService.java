@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.techway.model.dto.ReplyCommentDto;
-import com.techway.model.entity.Comment;
-import com.techway.model.entity.ReplyComment;
-import com.techway.model.entity.User;
+import com.techway.dto.ReplyCommentDto;
+import com.techway.entity.Comment;
+import com.techway.entity.ReplyComment;
+import com.techway.entity.User;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ReplyCommentRepository;
 import com.techway.repository.RoleRepository;

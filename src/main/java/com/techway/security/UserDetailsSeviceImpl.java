@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.techway.entity.User;
 import com.techway.exception.ResourceNotFoundException;
-import com.techway.model.entity.User;
 import com.techway.repository.UserRepository;
 
 @Service

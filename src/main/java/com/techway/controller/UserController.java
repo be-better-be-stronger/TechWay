@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.dto.AccountDto;
+import com.techway.dto.AccountDto;
 import com.techway.service.IUserService;
 @RestController
 @CrossOrigin("*")

@@ -2,14 +2,14 @@ package com.techway.repository;
 
 import java.util.List;
 
-import com.techway.model.entity.Product;
-import com.techway.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.techway.model.entity.Comment;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.techway.entity.Comment;
+import com.techway.entity.Product;
+import com.techway.entity.User;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
 

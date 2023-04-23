@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.entity.CameraFeature;
+import com.techway.entity.CameraFeature;
 import com.techway.repository.CameraFeatureRepository;
 
 @CrossOrigin("*")

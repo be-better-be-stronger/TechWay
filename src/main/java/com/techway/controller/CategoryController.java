@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.entity.Category;
+import com.techway.entity.Category;
 import com.techway.repository.CategoryRepository;
 
 @CrossOrigin("*")

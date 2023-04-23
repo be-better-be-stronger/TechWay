@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.model.dto.AccountDto;
-import com.techway.model.dto.RegistrationDTO;
-import com.techway.model.dto.request.AuthRequest;
-import com.techway.model.dto.response.AuthResponse;
+import com.techway.dto.AccountDto;
+import com.techway.dto.RegistrationDTO;
+import com.techway.dto.request.AuthRequest;
+import com.techway.dto.response.AuthResponse;
 import com.techway.security.jwt.JwtTokenUtil;
 import com.techway.security.UserDetailsImpl;
 import com.techway.service.impl.UserService;

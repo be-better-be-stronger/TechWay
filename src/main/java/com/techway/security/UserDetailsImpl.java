@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.techway.model.entity.User;
+import com.techway.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

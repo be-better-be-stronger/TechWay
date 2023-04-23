@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.techway.model.dto.AccountDto;
+import com.techway.dto.AccountDto;
 
 public interface IUserService {
 

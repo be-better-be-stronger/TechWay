@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.techway.model.entity.ReplyComment;
+import com.techway.entity.ReplyComment;
 
 public interface ReplyCommentRepository extends JpaRepository<ReplyComment, Long>{
 	
