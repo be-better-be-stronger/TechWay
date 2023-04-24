@@ -9,10 +9,10 @@ import com.techway.entity.ScreenTech;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.LaptopDetailRepository;
 import com.techway.repository.ScreenTechRepository;
-import com.techway.service.IScreenTechService;
+import com.techway.service.ScreenTechService;
 
 @Service
-public class ScreenTechSerrvice implements IScreenTechService {
+public class ScreenTechSerrviceImpl implements ScreenTechService {
 	@Autowired
 	ScreenTechRepository screenTechRepository;
 	@Autowired
@@ -30,7 +30,9 @@ public class ScreenTechSerrvice implements IScreenTechService {
 
 	@Override
 	public ScreenTech findById(long id) {
-		return screenTechRepository.findById(id).get();
+		return screenTechRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(String.format("ScreenTech with id %d not found", id))
+				);
 	}
 
 	@Override
@@ -47,10 +49,7 @@ public class ScreenTechSerrvice implements IScreenTechService {
 
 	@Override
 	public boolean deleteById(long id) {
-		ScreenTech o = screenTechRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException
-				(String.format("Screen technology whith id %d not found",id))
-				);
+		ScreenTech o = this.findById(id);
 		screenTechRepository.deleteById(o.getId());
 		return true;
 	}

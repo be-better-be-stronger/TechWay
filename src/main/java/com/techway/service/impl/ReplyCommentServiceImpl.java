@@ -14,10 +14,10 @@ import com.techway.repository.CommentRepository;
 import com.techway.repository.ReplyCommentRepository;
 import com.techway.repository.RoleRepository;
 import com.techway.repository.UserRepository;
-import com.techway.service.IReplyCommentService;
+import com.techway.service.ReplyCommentService;
 
 @Service
-public class ReplyCommentService implements IReplyCommentService{
+public class ReplyCommentServiceImpl implements ReplyCommentService{
 //	@Autowired
 //	HttpServletRequest requestServlet;
 	@Autowired

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techway.entity.CameraFeature;
 
-public interface ICameraService {
+public interface CameraService {
 
 	List<CameraFeature> findAll();
 

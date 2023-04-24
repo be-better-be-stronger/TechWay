@@ -13,10 +13,10 @@ import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.UserRepository;
-import com.techway.service.ICommentService;
+import com.techway.service.CommentService;
 
 @Service
-public class CommentService implements ICommentService {
+public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentRepository commentRepository;

@@ -5,21 +5,26 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techway.service.IOrderDetailService;
-import com.techway.service.IOrderService;
-import com.techway.service.IUserService;
+import com.techway.service.OrderDetailService;
+import com.techway.service.OrderService;
+import com.techway.service.UserService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/orders")
 public class OrderController {
 	@Autowired
-	IOrderService orderService;
+	OrderService orderService;
 	@Autowired
-	IUserService userservice;
+	UserService userService;
 	@Autowired
-	IOrderDetailService orderDetailService;
+	OrderDetailService orderDetailService;
 	
-//	@GetMapping
-//	public ResponseEntity<OrderResponse> getAll()
+//	@GetMapping()
+//	public ResponseEntity<List<OrderResponse>> getAllOrders(@CurrentUser UserDetailsImpl currentUser) {
+//	    Long userId = currentUser.getId();
+//	    User user = userService.findById(userId);
+//	    List<OrderResponse> orders = orderService.findAllByUserId(user.getId());
+//	    return ResponseEntity.ok(orders);
+//	}
 }

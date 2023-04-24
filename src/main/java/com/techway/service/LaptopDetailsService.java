@@ -5,7 +5,7 @@ import java.util.List;
 import com.techway.dto.request.LaptopDetailsRequest;
 import com.techway.entity.LaptopDetails;
 
-public interface ILaptopDetailsService {
+public interface LaptopDetailsService {
 
 	List<LaptopDetails> findAll();
 

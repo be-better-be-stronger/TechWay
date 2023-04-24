@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import com.techway.entity.CameraFeature;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CameraFeatureRepository;
-import com.techway.service.ICameraService;
+import com.techway.service.CameraService;
 
 @Service
-public class CameraService implements ICameraService{
+public class CameraServiceImpl implements CameraService{
 	@Autowired
 	CameraFeatureRepository cameraFeatureRepository;
 	@Override

@@ -6,7 +6,7 @@ import com.techway.dto.request.ProductRequest;
 import com.techway.entity.Color;
 import com.techway.entity.Product;
 
-public interface IProductService {	
+public interface ProductService {	
 	Product findById(long id);
 	List<Product> findAllByCategoryId(int cid);
 	Product save(ProductRequest productRequest);
@@ -14,6 +14,6 @@ public interface IProductService {
 	boolean disable(long id);
 	List<Product> findByAvailable();
 	List<Product> findByNameContaining(String name);
-	Color getColors(String productNo);
+	List<Color> getColors(String productNo);
 	List<Product> findAll();
 }

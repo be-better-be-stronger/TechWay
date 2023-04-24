@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.techway.dto.request.ProductRequest;
 import com.techway.entity.Color;
 import com.techway.entity.Product;
-import com.techway.service.IProductService;
+import com.techway.service.ProductService;
 
 @RestController
 @CrossOrigin("*")
@@ -29,7 +29,7 @@ import com.techway.service.IProductService;
 public class ProductController {
 
 	@Autowired
-	IProductService productService;
+	ProductService productService;
 	
 	@GetMapping("/name")
 	public ResponseEntity<List<Product>> findByName(@RequestParam(required = false) String name){
@@ -60,8 +60,8 @@ public class ProductController {
 		return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
 	}
 	@GetMapping("/{productNo}/colors")
-	public ResponseEntity<Color> getListColor(@PathVariable("productNo") String productNo){
-		return new ResponseEntity<Color>(productService.getColors(productNo), HttpStatus.OK);
+	public ResponseEntity<List<Color>> getListColor(@PathVariable("productNo") String productNo){
+		return new ResponseEntity<>(productService.getColors(productNo), HttpStatus.OK);
 	}
 
 	@PostMapping

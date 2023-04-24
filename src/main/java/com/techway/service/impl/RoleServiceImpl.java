@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.techway.entity.Role;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.RoleRepository;
-import com.techway.service.IRoleService;
+import com.techway.service.RoleService;
 
-public class RoleService implements IRoleService{
+public class RoleServiceImpl implements RoleService{
 	
 	@Autowired
 	RoleRepository roleRepository;

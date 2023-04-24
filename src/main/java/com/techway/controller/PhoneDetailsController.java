@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.dto.request.PhoneDetailRequest;
 import com.techway.entity.PhoneDetails;
-import com.techway.service.IPhoneDetailService;
+import com.techway.service.PhoneDetailService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/phone-details")
 public class PhoneDetailsController {
 	@Autowired
-	IPhoneDetailService phoneDetailService;
+	PhoneDetailService phoneDetailService;
 	
 	@GetMapping
 	public ResponseEntity<List<PhoneDetails>> getAll() {

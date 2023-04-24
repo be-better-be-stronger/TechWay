@@ -5,7 +5,7 @@ import java.util.List;
 import com.techway.dto.request.PhoneDetailRequest;
 import com.techway.entity.PhoneDetails;
 
-public interface IPhoneDetailService {
+public interface PhoneDetailService {
 
 	List<PhoneDetails> findAll();
 

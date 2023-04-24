@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.entity.CameraFeature;
-import com.techway.service.ICameraService;
+import com.techway.service.CameraService;
 
 @CrossOrigin("*")
 @RestController
@@ -24,7 +24,7 @@ import com.techway.service.ICameraService;
 public class CameraFeatureController {
 	
 	@Autowired
-	private ICameraService cameraService;
+	private CameraService cameraService;
 	
 	@GetMapping
 	public ResponseEntity<List<CameraFeature>> getList(){

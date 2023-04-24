@@ -1,5 +1,5 @@
 package com.techway.service;
 
-public interface IOrderService {
+public interface OrderService {
 
 }

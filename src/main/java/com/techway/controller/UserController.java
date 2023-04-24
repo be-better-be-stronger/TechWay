@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techway.dto.AccountDto;
-import com.techway.service.IUserService;
+import com.techway.service.UserService;
 @RestController
 @CrossOrigin("*")
 
 public class UserController {
 	
 	@Autowired
-	IUserService userService;
+	UserService userService;
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto dto) {

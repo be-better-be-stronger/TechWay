@@ -30,7 +30,7 @@ import com.techway.dto.request.AuthRequest;
 import com.techway.dto.response.AuthResponse;
 import com.techway.security.jwt.JwtTokenUtil;
 import com.techway.security.UserDetailsImpl;
-import com.techway.service.impl.UserService;
+import com.techway.service.impl.UserServiceImpl;
 
 @RestController
 @CrossOrigin("*")
@@ -42,7 +42,7 @@ public class AuthController {
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 	@Autowired
-	UserService userService;
+	UserServiceImpl userServiceImpl;
 	
 	
 	
@@ -69,18 +69,18 @@ public class AuthController {
 	@PostMapping("/registration")
 	public String processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
-        userService.register(userForm, userService.getSiteURL(request));
+        userServiceImpl.register(userForm, userServiceImpl.getSiteURL(request));
         return "register_success";
     }
 	
 	@GetMapping("/verify")
 	public boolean verifyUser(@PathParam("code") String code) {
-	   return userService.verify(code);
+	   return userServiceImpl.verify(code);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
-		AccountDto account = userService.findById(id);
+		AccountDto account = userServiceImpl.findById(id);
 		return new ResponseEntity<>(account, HttpStatus.OK);
 	} 
 }

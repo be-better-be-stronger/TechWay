@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techway.dto.ReplyCommentDto;
 
-public interface IReplyCommentService {
+public interface ReplyCommentService {
 
 	List<ReplyCommentDto> findAllByUserId(Long userId);
 

@@ -13,11 +13,11 @@ import com.techway.repository.CategoryRepository;
 import com.techway.repository.ColorRepository;
 import com.techway.repository.ManufacturerRepository;
 import com.techway.repository.ProductRepository;
-import com.techway.service.IProductService;
+import com.techway.service.ProductService;
 
 
 @Service
-public class ProductService implements IProductService{
+public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	ProductRepository productRepository;
@@ -108,8 +108,8 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public Color getColors(String productNo) {
-		Color colors =productRepository.findColorsByProductNo(productNo);
+	public List<Color> getColors(String productNo) {
+		List<Color> colors =productRepository.findColorsByProductNo(productNo);
 		System.out.println(colors);
 		return colors;
 	}

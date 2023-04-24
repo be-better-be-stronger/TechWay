@@ -22,12 +22,12 @@ import com.techway.entity.User;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.RoleRepository;
 import com.techway.repository.UserRepository;
-import com.techway.service.IUserService;
+import com.techway.service.UserService;
 
 import net.bytebuddy.utility.RandomString;
 
 @Service
-public class UserService implements IUserService{
+public class UserServiceImpl implements UserService{
 
 	@Autowired
     private UserRepository userRepository;

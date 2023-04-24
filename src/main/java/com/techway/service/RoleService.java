@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techway.entity.Role;
 
-public interface IRoleService {
+public interface RoleService {
 	
 	Role findByName(String name);
 

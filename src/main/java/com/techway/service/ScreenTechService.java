@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techway.entity.ScreenTech;
 
-public interface IScreenTechService {
+public interface ScreenTechService {
 
 	List<ScreenTech> findByNameContaining(String name);
 

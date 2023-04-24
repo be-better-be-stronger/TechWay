@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.techway.entity.Comment;
 
-public interface ICommentService {
+public interface CommentService {
 //
 	List<Comment> findByProductId(Long productId);
 

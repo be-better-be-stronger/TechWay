@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.techway.dto.ReplyCommentDto;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.UserRepository;
-import com.techway.service.IReplyCommentService;
+import com.techway.service.ReplyCommentService;
 
 @RestController
 @CrossOrigin("*")
@@ -26,7 +26,7 @@ import com.techway.service.IReplyCommentService;
 public class ReplyCommentController {
 
 	@Autowired
-	IReplyCommentService replyCommentService;
+	ReplyCommentService replyCommentService;
 	@Autowired
 	UserRepository userRepository;
 	@Autowired

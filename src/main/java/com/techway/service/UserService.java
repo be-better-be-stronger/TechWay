@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.techway.dto.AccountDto;
 
-public interface IUserService {
+public interface UserService {
 
 	boolean verify(String verificationCode);
 	String getSiteURL(HttpServletRequest request);

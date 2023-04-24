@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techway.dto.request.LaptopDetailsRequest;
 import com.techway.entity.LaptopDetails;
-import com.techway.service.ILaptopDetailsService;
+import com.techway.service.LaptopDetailsService;
 
 @Controller
 @CrossOrigin("*")
 @RequestMapping("/api/v1/laptopdetails")
 public class LaptopDetailsController {
 	@Autowired
-	ILaptopDetailsService laptopDetailsService;
+	LaptopDetailsService laptopDetailsService;
 
 	@GetMapping
 	public ResponseEntity<List<LaptopDetails>> getAll() {

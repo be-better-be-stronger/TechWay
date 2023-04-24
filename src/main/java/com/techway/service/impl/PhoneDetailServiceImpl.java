@@ -19,9 +19,9 @@ import com.techway.repository.PhoneDetailRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.ScreenTechRepository;
 import com.techway.repository.SpecialFeatureRepository;
-import com.techway.service.IPhoneDetailService;
+import com.techway.service.PhoneDetailService;
 @Service
-public class PhoneDetailService implements IPhoneDetailService{
+public class PhoneDetailServiceImpl implements PhoneDetailService{
 	@Autowired	private PhoneDetailRepository phoneDetailRepository;
 	@Autowired	private ProductRepository productRepository;
 	@Autowired	private ScreenTechRepository screenTechRepository;

@@ -14,10 +14,10 @@ import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.LaptopDetailRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.ScreenTechRepository;
-import com.techway.service.ILaptopDetailsService;
+import com.techway.service.LaptopDetailsService;
 
 @Service
-public class LaptopDetailsService implements ILaptopDetailsService{
+public class LaptopDetailsServiceImpl implements LaptopDetailsService{
 	@Autowired
 	private LaptopDetailRepository laptopDetailRepository;
 

@@ -11,14 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.techway.service.ICommentService;
+import com.techway.service.CommentService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/comments")
 public class CommentController {
     @Autowired
-    private ICommentService commentService;
+    private CommentService commentService;
 
     // retrieve comments of a product
     @GetMapping("/comments/product/{productId}")
