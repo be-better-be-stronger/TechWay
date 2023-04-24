@@ -53,6 +53,7 @@ public class PhoneDetails implements Serializable {
 
 	// Camera sau
 	private String backCameraResolution;// Độ phân giải
+	private String frontCameraResolution;
 	private boolean flash;// Đèn Flash
 
 	// danh sách các tính năng của camera sau
@@ -88,7 +89,7 @@ public class PhoneDetails implements Serializable {
 	// Pin & Sạc
 	int pinCapacity;// Dung lượng pin
 	String pinType;// Loại pin
-	int chargingSupport;// Hỗ trợ sạc tối đa
+	int maxChargingSupport;// Hỗ trợ sạc tối đa
 
 	// Tiện ích
 	

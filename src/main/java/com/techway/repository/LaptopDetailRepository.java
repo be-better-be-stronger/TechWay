@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.techway.entity.LaptopDetail;
+import com.techway.entity.LaptopDetails;
 
-public interface LaptopDetailRepository extends JpaRepository<LaptopDetail, Long>{
-	List<LaptopDetail> findLaptopsByScreenTechsId(Long screenTechId);
+public interface LaptopDetailRepository extends JpaRepository<LaptopDetails, Long>{
+	List<LaptopDetails> findLaptopsByScreenTechsId(Long screenTechId);
 }

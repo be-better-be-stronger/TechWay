@@ -37,5 +37,5 @@ public class ScreenTech implements Serializable {
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
 			mappedBy = "screenTechs")
 	@JsonIgnore
-	private Set<LaptopDetail> laptops = new HashSet<>();
+	private Set<LaptopDetails> laptops = new HashSet<>();
 }

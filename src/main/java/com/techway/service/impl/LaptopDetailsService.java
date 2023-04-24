@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.techway.dto.request.LaptopDetailsRequest;
-import com.techway.entity.LaptopDetail;
+import com.techway.entity.LaptopDetails;
 import com.techway.entity.ScreenTech;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.LaptopDetailRepository;
@@ -19,29 +19,50 @@ import com.techway.service.ILaptopDetailsService;
 @Service
 public class LaptopDetailsService implements ILaptopDetailsService{
 	@Autowired
-	LaptopDetailRepository laptopDetailRepository;
+	private LaptopDetailRepository laptopDetailRepository;
 
 	@Autowired
-	ScreenTechRepository screenTechRepository;
+	private ScreenTechRepository screenTechRepository;
+	
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	
 	@Override
-	public List<LaptopDetail> findAll() {
-		List<LaptopDetail> list = laptopDetailRepository.findAll();
+	public List<LaptopDetails> findAll() {
+		List<LaptopDetails> list = laptopDetailRepository.findAll();
 //				.stream().map(o -> entityToResponse(o)).collect(Collectors.toList());
 		return list;
 	}
 	
 	@Override
-	public LaptopDetail save(long productId, LaptopDetailsRequest request) {
-		LaptopDetail laptopDetail = new LaptopDetail();
+	public LaptopDetails save(long productId, LaptopDetailsRequest request) {
+		LaptopDetails laptopDetails = new LaptopDetails();
 		request.setId(productId);
-		LaptopDetail savedLaptopDetail = laptopDetailRepository.save(requestToEntity(request, laptopDetail));
+		LaptopDetails savedLaptopDetail = laptopDetailRepository.save(requestToEntity(request, laptopDetails));
 		return savedLaptopDetail ;
 	}
 	
-	private LaptopDetail requestToEntity(LaptopDetailsRequest request, LaptopDetail entity) {
+	@Override
+	public LaptopDetails findById(long id) {
+		LaptopDetails o = laptopDetailRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(
+						String.format("LaptopDetail with id %d not found", id))
+				);
+		
+		return o;
+	}
+
+	@Override
+	public LaptopDetails update(long id, LaptopDetailsRequest request) {
+		LaptopDetails laptopDetails = laptopDetailRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException(
+						String.format("LaptopDetail with id %d not found", id))
+				);
+		LaptopDetails updatedLaptopDetail = laptopDetailRepository.save(requestToEntity(request, laptopDetails));
+		return updatedLaptopDetail;
+	}
+	
+	private LaptopDetails requestToEntity(LaptopDetailsRequest request, LaptopDetails entity) {
 		entity.setProduct(productRepository.findById(request.getId()).get());
 		entity.setCpu(request.getCpu());
 		entity.setCore(request.getCore());
@@ -95,23 +116,6 @@ public class LaptopDetailsService implements ILaptopDetailsService{
 //		
 //		return details;
 //	}
-	@Override
-	public LaptopDetail findById(long id) {
-		LaptopDetail o = laptopDetailRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException("Not found")
-				);
-		
-		return o;
-	}
-
-	@Override
-	public LaptopDetail update(long id, LaptopDetailsRequest request) {
-		LaptopDetail laptopDetail = laptopDetailRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundException(
-						String.format("Product with id %d not found", id))
-				);
-		LaptopDetail updatedLaptopDetail = laptopDetailRepository.save(requestToEntity(request, laptopDetail));
-		return updatedLaptopDetail;
-	}
+	
 	
 }

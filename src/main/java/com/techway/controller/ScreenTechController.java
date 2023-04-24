@@ -46,7 +46,7 @@ public class ScreenTechController {
 	
 	@PostMapping
 	public ResponseEntity<ScreenTech> create(@RequestBody ScreenTech o) {
-		return new ResponseEntity(screenTechService.save(o), HttpStatus.CREATED);
+		return new ResponseEntity<ScreenTech>(screenTechService.save(o), HttpStatus.CREATED);
 	}
 
 	@PutMapping("{id}")

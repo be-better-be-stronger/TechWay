@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techway.dto.request.LaptopDetailsRequest;
-import com.techway.entity.LaptopDetail;
+import com.techway.entity.LaptopDetails;
 import com.techway.service.ILaptopDetailsService;
 
 @Controller
@@ -27,25 +27,25 @@ public class LaptopDetailsController {
 	ILaptopDetailsService laptopDetailsService;
 
 	@GetMapping
-	public ResponseEntity<List<LaptopDetail>> getAll() {
-		List<LaptopDetail> list = new ArrayList<>();
+	public ResponseEntity<List<LaptopDetails>> getAll() {
+		List<LaptopDetails> list = new ArrayList<>();
 		laptopDetailsService.findAll().forEach(list::add);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<LaptopDetail> getOne(@PathVariable("id") long id) {
+	public ResponseEntity<LaptopDetails> getOne(@PathVariable("id") long id) {
 		return new ResponseEntity<>(laptopDetailsService.findById(id), HttpStatus.OK);
 	}
 
 	@PostMapping("{productId}")
-	public ResponseEntity<LaptopDetail> create(@PathVariable("productId") long id,
+	public ResponseEntity<LaptopDetails> create(@PathVariable("productId") long id,
 			@RequestBody LaptopDetailsRequest request) {
-		return new ResponseEntity<LaptopDetail>(laptopDetailsService.save(id, request), HttpStatus.CREATED);
+		return new ResponseEntity<LaptopDetails>(laptopDetailsService.save(id, request), HttpStatus.CREATED);
 	}
 	@PutMapping("{productId}")
-	public ResponseEntity<LaptopDetail> update(@PathVariable("productId") long id,
+	public ResponseEntity<LaptopDetails> update(@PathVariable("productId") long id,
 			@RequestBody LaptopDetailsRequest request) {
-		return new ResponseEntity<LaptopDetail>(laptopDetailsService.update(id, request), HttpStatus.OK);
+		return new ResponseEntity<LaptopDetails>(laptopDetailsService.update(id, request), HttpStatus.OK);
 	}
 }

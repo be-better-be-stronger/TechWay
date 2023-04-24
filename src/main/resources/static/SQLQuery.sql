@@ -14,41 +14,6 @@ use techway
 	--> spring.jpa.hibernate.ddl-auto=update
 2.2. run ung dung spring boot
 */
-
-/*
-go
-/*3. doi kieu du lieu varchar(255)mac dinh trong entity(String) thanh nvarchar*/
-ALTER TABLE products ALTER COLUMN name nvarchar(255)
-go
-ALTER TABLE categories ALTER COLUMN category_name nvarchar(255)
-go 
-ALTER TABLE manufacturer ALTER COLUMN manufacturer_name nvarchar(255)
-go
-ALTER TABLE colors ALTER COLUMN color nvarchar(50)
-go
-ALTER TABLE camera_features ALTER COLUMN name nvarchar(255)
-go
-ALTER TABLE screen_techs ALTER COLUMN name nvarchar(255)
-go
-ALTER TABLE special_features ALTER COLUMN name nvarchar(255)
-go
-ALTER TABLE advanced_securities ALTER COLUMN name nvarchar(255)
-go 
-ALTER TABLE camera_features ALTER COLUMN name nvarchar(255)
-go
-ALTER TABLE orders ALTER COLUMN address nvarchar(255)
-go
-ALTER TABLE comments ALTER COLUMN content nvarchar(max)
-go
-ALTER TABLE products ALTER COLUMN image nvarchar(max)
-
-DELETE FROM ROLES
-select * from roles
-go
-
-select * from categories
-*/
-
 go
 insert into [dbo].[roles] values ('ROLE_CUST'), ('ROLE_DIRE'), ('ROLE_STAFF')
 go
@@ -59,7 +24,7 @@ go
 
 insert into manufacturer values (N'iphone'), (N'Samsung'), (N'Oppo'), 
 	(N'Xiaomi'), (N'Vivo'), (N'realme'), (N'Nokia'), (N'TCL'),
-	(N'mobell'), (N'itel'), (N'Masstel')
+	(N'mobell'), (N'itel'), (N'Masstel'), ('ASUS')
 go 
 select * from colors
 insert into colors values (N'Vàng đồng'), (N'Bạc'), (N'Trắng'), (N'Đỏ'), (N'Xanh dương'), (N'Xanh lá'), (N'Xanh rêu'), (N'Cam'), (N'Xanh ngọc'), (N'Tím'), (N'Tím nhạt'), (N'Đen'), (N'Kem'), (N'Xanh')
@@ -115,16 +80,19 @@ insert into screen_techs values (N'Dynamic AMOLED 2X'),
 	(N'IPS LCD'),
 	(N'Super AMOLED')
 	
-go
-use techway
+select * from orders
 select * from products
 select * from colors
 select * from camera_features
+select * from advanced_securities
+select * from special_features
 select * from categories
 select * from manufacturer
-insert into products values()
-
 select * from roles
+select * from laptop_details
+select * from screen_techs
+select * from categories
+insert into manufacturer (manufacturer_name) values ('ASUS')
 
 delete from user_roles where user_id = 2
 
@@ -136,8 +104,11 @@ select * FROM users
 delete from user_roles
 delete from users
 select * from users
-
+select* from orders
 select * from comments
 select * from products
 insert into comments (content, product_id, created_by) values(N'dfhweioafhewi', 1, 1)
 insert into products(product_no, name, [images], price, available, category_id, manufacturer_id, color_id) values('asdfads', 'ss s20', 'photos', 99, 1, 1, 1, 1)
+
+select color_id from products o where o.product_no = 'ASUS15X'
+select * from phone_details

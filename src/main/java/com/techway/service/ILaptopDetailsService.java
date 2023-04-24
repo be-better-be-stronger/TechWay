@@ -3,16 +3,16 @@ package com.techway.service;
 import java.util.List;
 
 import com.techway.dto.request.LaptopDetailsRequest;
-import com.techway.entity.LaptopDetail;
+import com.techway.entity.LaptopDetails;
 
 public interface ILaptopDetailsService {
 
-	List<LaptopDetail> findAll();
+	List<LaptopDetails> findAll();
 
-	LaptopDetail findById(long id);
+	LaptopDetails findById(long id);
 
-	LaptopDetail save(long id, LaptopDetailsRequest request);
+	LaptopDetails save(long id, LaptopDetailsRequest request);
 
-	LaptopDetail update(long id, LaptopDetailsRequest request);
+	LaptopDetails update(long id, LaptopDetailsRequest request);
 
 }
