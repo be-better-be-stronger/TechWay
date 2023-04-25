@@ -37,7 +37,13 @@ public class Cart implements Serializable {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    private Double totalValue;
+    public Double getTotalValue() {
+    	double total = 0.0;
+    	for (CartItem o : cartItems) {
+			total = total + o.getProduct().getPrice() * o.getQuantity();
+		}
+    	return total;
+    }
     
     @ManyToOne()
     @JoinColumn(name = "user_id")

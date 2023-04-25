@@ -1,7 +1,5 @@
 package com.techway.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.techway.dto.CartDto;
 import com.techway.dto.CartItemDto;
-import com.techway.dto.ProductDto;
 import com.techway.entity.Cart;
 import com.techway.entity.CartItem;
 import com.techway.entity.Product;
 import com.techway.entity.User;
-import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CartItemRepository;
 import com.techway.repository.CartRepository;
 import com.techway.repository.ProductRepository;
@@ -37,8 +33,8 @@ public class CartServiceImpl implements CartService {
 	private CartItemRepository cartItemRepository;
 
 	@Override
-	public CartDto getCartByUserId(Long userId) {
-		User user = userRepository.findById(userId).orElse(null);
+	public CartDto getCartByUserEmail(String email) {
+		User user = userRepository.findByEmail(email).orElse(null);
 		if (user == null) {
 			return null;
 		}
@@ -53,8 +49,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public Boolean addProductToCart(Long userId,Long productId) {
-		User user = userRepository.findById(userId).orElse(null);
+	public Boolean addProductToCart(String email,Long productId) {
+		User user = userRepository.findByEmail(email).orElse(null);
 		Product product = productRepository.findById(productId).orElse(null);
 		if (user == null || product == null) {
 			return false;
@@ -71,15 +67,23 @@ public class CartServiceImpl implements CartService {
 			cartItemRepository.save(cartItem);
 		}else {
 			CartItem cartItem = cartItemRepository.findByProductAndCart(product, cart);
-			cartItem.setQuantity(cartItem.getQuantity() + 1);
-			cartItemRepository.save(cartItem);
+			if(cartItem != null) {
+				cartItem.setQuantity(cartItem.getQuantity() + 1);
+				cartItemRepository.save(cartItem);
+			}else {
+				cartItem = new CartItem();
+				cartItem.setQuantity(1);
+				cartItem.setProduct(product);
+				cartItem.setCart(cart);
+				cartItemRepository.save(cartItem);
+			}
 		}
 		return true;
 	}
 
 	@Override
-	public void deleteCartItem(Long userId, Long productId) {
-		Optional<User> userOptional = userRepository.findById(userId);
+	public void deleteCartItem(String email, Long productId) {
+		Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (!userOptional.isPresent()) {
             return;
@@ -102,26 +106,22 @@ public class CartServiceImpl implements CartService {
 
         CartItem cartItem = cartItemOptional.get();
         cart.getCartItems().remove(cartItem);
-
-        Double totalValue = calculateTotalValue(cart);
-        cart.setTotalValue(totalValue);
-
         cartRepository.save(cart);
 	}
 
 	
 
 	@Override
-	public void clearCart(Long userId) {
-		User user = userRepository.findById(userId).orElseThrow(
-				() -> new ResourceNotFoundException(String.format("User with id %d not found", userId))
-				);
+	public void clearCart(String email) {
+		User user = userRepository.findByEmail(email).get();
+		Cart cart = cartRepository.findByUser(user);
+		cartItemRepository.deleteByCart(cart);		
 		cartRepository.deleteByUser(user);		
 	}
 
 	@Override
-	public CartDto updateProductInCart(Long userId, CartItemDto cartItemDto) {
-	       User user = userRepository.findById(userId).get();
+	public CartDto updateProductInCart(String email, CartItemDto cartItemDto) {
+	       User user = userRepository.findByEmail(email).get();
 
 	        Cart cart = cartRepository.findByUser(user);
 
@@ -138,10 +138,7 @@ public class CartServiceImpl implements CartService {
 	        }
 
 	        CartItem cartItem = cartItems.get();
-	        cartItem.setQuantity(cartItemDto.getQuantity());
-
-	        Double totalValue = calculateTotalValue(cart);
-	        cart.setTotalValue(totalValue);
+	        cartItem.setQuantity(cartItemDto.getQuantity());    
 
 	        Cart savedCart = cartRepository.save(cart);
 	        CartDto savedCartDTO = CartDto.fromEntity(savedCart);
@@ -149,16 +146,18 @@ public class CartServiceImpl implements CartService {
 	        return savedCartDTO;
 	}
 
-	private Double calculateTotalValue(Cart cart) {
-		Double totalValue = 0.0;
 
-        for (CartItem cartItem : cart.getCartItems()) {
-            Double itemValue = cartItem.getQuantity() * cartItem.getProduct().getPrice();
-            totalValue += itemValue;
-        }
 
-        return totalValue;
-	}
+//	private Double calculateTotalValue(Cart cart) {
+//		Double totalValue = 0.0;
+//
+//        for (CartItem cartItem : cart.getCartItems()) {
+//            Double itemValue = cartItem.getQuantity() * cartItem.getProduct().getPrice();
+//            totalValue += itemValue;
+//        }
+//
+//        return totalValue;
+//	}
 
 	
 }

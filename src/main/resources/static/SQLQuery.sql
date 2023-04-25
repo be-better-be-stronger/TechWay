@@ -79,6 +79,8 @@ insert into screen_techs values (N'Dynamic AMOLED 2X'),
 	(N'Super Retina XDR'),
 	(N'IPS LCD'),
 	(N'Super AMOLED')
+
+select *from 
 	
 select * from orders
 select * from products
@@ -99,8 +101,10 @@ delete from user_roles where user_id = 2
 
 delete from user_roles where user_id = 6
 
-select * FROM users
-
+select * from user_roles
+select * from users
+select * from roles
+select * from comments
 delete from user_roles
 delete from users
 select * from users
@@ -112,3 +116,4 @@ insert into products(product_no, name, [images], price, available, category_id, 
 
 select color_id from products o where o.product_no = 'ASUS15X'
 select * from phone_details
+

@@ -16,9 +16,11 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "phone_details")
 public class PhoneDetails implements Serializable {
@@ -30,7 +32,7 @@ public class PhoneDetails implements Serializable {
 
 	// @MapsId -> indicates that the primary key values
 	// will be copied from the Product entity
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@MapsId
 	@JoinColumn(name = "product_id")
 	private Product product;

@@ -34,7 +34,7 @@ public class Comment implements Serializable{
 	@NotNull
 	String content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "created_by")
 	private User user;
 	

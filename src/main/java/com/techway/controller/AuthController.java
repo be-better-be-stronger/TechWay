@@ -59,6 +59,8 @@ public class AuthController {
             String accessToken = jwtTokenUtil.generateAccessToken(userDetails);
             AuthResponse response = new AuthResponse(userDetails.getEmail(), accessToken);
              
+//            System.out.println(response);
+//            System.out.println(response.getEmail());
             return ResponseEntity.ok().body(response);
              
         } catch (BadCredentialsException ex) {
@@ -67,10 +69,10 @@ public class AuthController {
     }
 	
 	@PostMapping("/registration")
-	public String processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
+	public Boolean processRegister(@RequestBody RegistrationDTO userForm, HttpServletRequest request)
             throws UnsupportedEncodingException, MessagingException {
         userServiceImpl.register(userForm, userServiceImpl.getSiteURL(request));
-        return "register_success";
+        return true;
     }
 	
 	@GetMapping("/verify")

@@ -15,7 +15,7 @@ public class CartDto {
 	
 	private Long id;
 	
-	private Long userId;
+	private String email;
 
     private List<CartItemDto> cartItems;
 
@@ -24,6 +24,7 @@ public class CartDto {
     public static CartDto fromEntity(Cart cart) {
     	CartDto cartDto = new CartDto();
     	cartDto.setId(cart.getId());
+    	cartDto.setEmail(cart.getUser().getEmail());
         cartDto.setTotalValue(cart.getTotalValue());
 
         List<CartItemDto> cartItemDTOs = new ArrayList<>();
@@ -39,7 +40,6 @@ public class CartDto {
     public Cart toEntity() {
         Cart cart = new Cart();
         cart.setId(this.id);
-        cart.setTotalValue(this.totalValue);
 
         List<CartItem> cartItems = new ArrayList<>();
         for (CartItemDto cartItemDTO : this.cartItems) {

@@ -9,6 +9,7 @@ import com.techway.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.techway.service.CommentService;
@@ -21,7 +22,7 @@ public class CommentController {
     private CommentService commentService;
 
     // retrieve comments of a product
-    @GetMapping("/comments/product/{productId}")
+    @GetMapping("/product/{productId}")
     public ResponseEntity<List<Comment>> getAllCommentsByProductId(@PathVariable(value = "productId") Long productId) {
         return new ResponseEntity<>(commentService.findByProductId(productId), HttpStatus.OK);
     }
@@ -45,7 +46,14 @@ public class CommentController {
     @DeleteMapping("/product/{id}")
     public ResponseEntity<Integer> deleteComment(@PathVariable(value = "id") Long productId,
                                                  @CurrentUser UserDetailsImpl loginUser) {
+    	System.out.println("userId: " +  loginUser.getId());
         Integer deletedCommentStatus = commentService.delete(loginUser.getId(), productId);
         return new ResponseEntity<>(deletedCommentStatus, HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public String getUser(Authentication authentication) {
+        String username = authentication.getName();// Lấy tên đăng nhập của người dùng
+        return "Xin chào " + username;
     }
 }
