@@ -4,10 +4,13 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.techway.dto.AccountDto;
 import com.techway.security.UserDetailsImpl;
+import com.techway.service.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,18 +22,25 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtTokenUtil {
-	private static final long EXPIRE_DURATION = 60 * 60 * 1000; // The token should expire after 1 hour
+	
+	@Autowired
+	private UserService userService;
+	private static final long EXPIRE_DURATION =30 * 60 * 60 * 1000; // The token should expire after 1 hour
     
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
       
     public String generateAccessToken(UserDetailsImpl user) {
-    	
-        return Jwts.builder()
+    	AccountDto userDto = userService.findByEmail(user.getUsername());
+    	return Jwts.builder()
                 .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
                 .setIssuer("Techway")
                 .claim("roles", user.getAuthorities().toString())
+                .claim("fullname", userDto.getFullName())
+                .claim("photo", userDto.getPhoto())
                 .setIssuedAt(new Date())
+                .claim("email", userDto.getEmail())
+                .claim("id", userDto.getId())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();

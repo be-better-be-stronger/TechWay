@@ -2,16 +2,21 @@ package com.techway.controller;
 
 import java.util.List;
 
-import com.techway.createAnnotation.CurrentUser;
-import com.techway.entity.Comment;
-import com.techway.security.UserDetailsImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.techway.dto.CommentDto;
 import com.techway.service.CommentService;
 
 @CrossOrigin("*")
@@ -22,33 +27,32 @@ public class CommentController {
     private CommentService commentService;
 
     // retrieve comments of a product
-    @GetMapping("/product/{productId}")
-    public ResponseEntity<List<Comment>> getAllCommentsByProductId(@PathVariable(value = "productId") Long productId) {
+    @GetMapping("/product/{id}")
+    public ResponseEntity<List<CommentDto>> getAllCommentsByProductId(@PathVariable(value = "id") Long productId) {
         return new ResponseEntity<>(commentService.findByProductId(productId), HttpStatus.OK);
-    }
-
-    // retrieve a Comment by :id
-    @GetMapping("/{id}")
-    public ResponseEntity<Comment> getOne(@PathVariable(value = "id") Long id,
-	@CurrentUser UserDetailsImpl loginUser) {
-        Comment comment = commentService.findBytId(id);
-        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     //create new Comment for a Product
     @PostMapping("/product/{id}")
-    public ResponseEntity<Comment> createComment(@PathVariable("userId") Long userId, @PathVariable(value = "id") Long productId,
-                                                 @RequestBody Comment commentRequest) {
-        Comment comment = commentService.save(userId, productId, commentRequest);
+    public ResponseEntity<CommentDto> createComment(Authentication authentication, 
+    		@PathVariable(value = "id") Long productId,
+            @RequestBody @Validated CommentDto commentRequest) {
+    	String email = authentication.getName();
+    	System.out.println("User's email: " +  email);
+        CommentDto comment = commentService.save(email, productId, commentRequest);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
    
-    @DeleteMapping("/product/{id}")
-    public ResponseEntity<Integer> deleteComment(@PathVariable(value = "id") Long productId,
-                                                 @CurrentUser UserDetailsImpl loginUser) {
-    	System.out.println("userId: " +  loginUser.getId());
-        Integer deletedCommentStatus = commentService.delete(loginUser.getId(), productId);
-        return new ResponseEntity<>(deletedCommentStatus, HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteComment(Authentication authentication, @PathVariable Long commentId) {
+    	String email = authentication.getName();
+    	System.out.println("User's email: " +  email);
+        Boolean deletedCommentStatus = commentService.delete(email, commentId);
+        if (deletedCommentStatus) {
+            return ResponseEntity.ok().body(deletedCommentStatus);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(deletedCommentStatus);
+        }
     }
 
     @GetMapping("/user")

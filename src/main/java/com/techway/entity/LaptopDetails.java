@@ -47,37 +47,37 @@ public class LaptopDetails implements Serializable {
 	// Bộ nhớ RAM, Ổ cứng
 	private int ram; // RAM
 	@Nationalized
-	private String type; // loại RAM
+	private String typeRAM; // loại RAM
 	private int busRAM; // Tốc độ Bus RAM
 	private int maxRAM; // Hỗ trợ RAM tối đa
 	@Nationalized
 	private String ssd;
 
 	// Màn hình
-	float screenWidth; // Màn hình(inch)
+	float screenSize; // Màn hình(inch)
 	@Nationalized
-	String screenResolution; // do phan giai man hinh
+	String displayResolution; // do phan giai man hinh
 	int hz; // tần số quét màn hình
 
 	// cong nghệ màn hình
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "laptop_screen_technologies", joinColumns = { @JoinColumn(name = "laptop_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "screen_tech_id") })
-	private Set<ScreenTech> screenTechs = new HashSet<>();
+	@JoinTable(name = "laptop_display_technologies", joinColumns = { @JoinColumn(name = "laptop_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "display_id") })
+	private Set<DisplayTechnology> displayTechnologies = new HashSet<>();
 
 	// Đồ họa và Âm thanh
 	@Nationalized
-	String screenCard; // card màn hình
+	String graphicsCard; // card màn hình
 	@Nationalized
 	String sound; // Công nghệ âm thanh
 
-	public void addScreenTech(ScreenTech technology) {
-		this.screenTechs.add(technology);
+	public void addDisplayTecchnology(DisplayTechnology technology) {
+		this.displayTechnologies.add(technology);
 		technology.getLaptops().add(this);
 	}
 
-	public void removeScreenTech(ScreenTech technology) {		
-			this.screenTechs.remove(technology);
+	public void removeDisplayTechnology(DisplayTechnology technology) {		
+			this.displayTechnologies.remove(technology);
 			technology.getLaptops().remove(this);
 	}
 

@@ -5,10 +5,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.techway.RoleName;
 import com.techway.dto.ReplyCommentDto;
 import com.techway.entity.Comment;
 import com.techway.entity.ReplyComment;
+import com.techway.entity.Role;
 import com.techway.entity.User;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ReplyCommentRepository;
@@ -47,30 +50,36 @@ public class ReplyCommentServiceImpl implements ReplyCommentService{
 	}
 	
 	@Override
-	public ReplyCommentDto create(ReplyCommentDto dto) {
-		ReplyComment reply = mapDtoToEntity(dto);
+	public ReplyCommentDto create(String email, ReplyCommentDto dto) {
+		dto.setCreatedBy(email);
+		ReplyComment reply = mapDtoToEntity(dto);		
 		return mapEntityToDto(replyCommentRepository.save(reply));
 	}
 	
 
 	@Override
-	public boolean delete(long replyId) {	
-//		User user = userRepository.findByEmail().get();
-		User user = new User();
-		ReplyComment reply = replyCommentRepository.findById(replyId).get();
-		if((user.getId() == reply.getUser().getId()) || 
-				user.getRoles().contains(roleRepository.findByName("ROLE_DIRE").get())) {
-			replyCommentRepository.delete(reply);
+	@Transactional
+	public boolean delete(String email, long replyId) {	
+
+		Role role = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
+		try {
+			User user = userRepository.findByEmail(email).get();
+			Long userId = user.getId();
+			if (user.getRoles().contains(role)) {
+				replyCommentRepository.deleteById(replyId);
+			}else {
+				replyCommentRepository.deleteByUserIdAndId(userId, replyId);
+			}
 			return true;
-		}else
+		} catch (Exception e) {
 			return false;
+		}
 	}
 	
 	private ReplyComment mapDtoToEntity(ReplyCommentDto request) {
 		ReplyComment response = new ReplyComment();
 		Comment comment = commentRepository.findById(request.getCommentId()).get();
-//		User user = userRepository.findByEmail(email).get();
-		User user = new User();
+		User user = userRepository.findByEmail(request .getCreatedBy()).get();
 		response.setContent(request.getContent());
 		response.setComment(comment);
 		response.setUser(user);
@@ -82,7 +91,7 @@ public class ReplyCommentServiceImpl implements ReplyCommentService{
 		response.setId(request.getId());
 		response.setContent(request.getContent());
 		response.setCommentId(request.getComment().getId());
-		response.setUserId(request.getUser().getId());
+		response.setCreatedBy(request.getUser().getFullname());
 		return response;
 	}
 	

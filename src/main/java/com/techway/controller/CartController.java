@@ -28,9 +28,9 @@ public class CartController {
     // Lấy thông tin giỏ hàng theo User
     @GetMapping
     public ResponseEntity<CartDto> getCartByUser(Authentication authentication) {
-    	String user = authentication.getName();// return email
-    	System.out.println(user);
-        CartDto cart = cartService.getCartByUserEmail(user);        
+    	String email = authentication.getName();// return email
+    	System.out.println(email);
+        CartDto cart = cartService.getCartByUserEmail(email);        
         return ResponseEntity.ok().body(cart);
     }
 

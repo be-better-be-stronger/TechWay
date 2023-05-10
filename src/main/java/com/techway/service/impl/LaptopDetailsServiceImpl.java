@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.techway.dto.request.LaptopDetailsRequest;
+import com.techway.entity.DisplayTechnology;
 import com.techway.entity.LaptopDetails;
-import com.techway.entity.ScreenTech;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.LaptopDetailRepository;
 import com.techway.repository.ProductRepository;
-import com.techway.repository.ScreenTechRepository;
+import com.techway.repository.DisplayTechRepository;
 import com.techway.service.LaptopDetailsService;
 
 @Service
@@ -22,7 +22,7 @@ public class LaptopDetailsServiceImpl implements LaptopDetailsService{
 	private LaptopDetailRepository laptopDetailRepository;
 
 	@Autowired
-	private ScreenTechRepository screenTechRepository;
+	private DisplayTechRepository displayTechRepository;
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -71,18 +71,18 @@ public class LaptopDetailsServiceImpl implements LaptopDetailsService{
 		entity.setCpuMaxSpeed(request.getCpuMaxSpeed());
 		entity.setCache(request.getCache());
 		entity.setRam(request.getRam());
-		entity.setType(request.getType());
+		entity.setTypeRAM(request.getType());
 		entity.setBusRAM(request.getBusRAM());
 		entity.setMaxRAM(request.getMaxRAM());
 		entity.setSsd(request.getSsd());
-		entity.setScreenWidth(request.getScreenWidth());
-		entity.setScreenResolution(request.getScreenResolution());
+		entity.setScreenSize(request.getScreenWidth());
+		entity.setDisplayResolution(request.getScreenResolution());
 		entity.setHz(request.getHz());
-		Set<ScreenTech> set = new HashSet<ScreenTech>();
+		Set<DisplayTechnology> set = new HashSet<DisplayTechnology>();
 		Set<Long> setIds = request.getScreenTechs();
-		setIds.stream().forEach(id -> set.add(screenTechRepository.findById(id).get()));
-		entity.setScreenTechs(set);
-		entity.setScreenCard(request.getScreenCard());
+		setIds.stream().forEach(id -> set.add(displayTechRepository.findById(id).get()));
+		entity.setDisplayTechnologies(set);
+		entity.setGraphicsCard(request.getScreenCard());
 		entity.setSound(request.getSound());
 		return entity;
 	}

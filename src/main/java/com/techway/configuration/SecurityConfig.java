@@ -57,9 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-	        .cors()
-	    	.and()
-	    	.csrf().disable()
+        	.cors()
+        	.and()
+        	.csrf().disable()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()        	
         	.formLogin().disable()
@@ -68,11 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	       	
         
-        http.authorizeRequests()
-//        	.antMatchers("/api/v1/auth/**").permitAll()
-//        	.antMatchers("/api/v1/test/**").permitAll()
-//        	.anyRequest().authenticated();   
-        	.anyRequest().permitAll();
+        http.authorizeRequests().anyRequest().permitAll();
         
         
         //the server will return HTTP status 401 (Unauthorized) 

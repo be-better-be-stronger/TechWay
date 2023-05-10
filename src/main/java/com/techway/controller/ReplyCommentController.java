@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,14 +47,23 @@ public class ReplyCommentController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<ReplyCommentDto> replyToCustomer(@RequestBody ReplyCommentDto dto){
-		ReplyCommentDto reply = replyCommentService.create(dto);
+	public ResponseEntity<ReplyCommentDto> replyToCustomer(@RequestBody @Validated ReplyCommentDto dto,
+			Authentication authn){
+		String email = authn.getName();
+		System.out.println(email);
+		ReplyCommentDto reply = replyCommentService.create(email, dto);
 		return new ResponseEntity<ReplyCommentDto>(reply, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{replyId}")
-	public ResponseEntity<Boolean> deleteReply(@PathVariable("replyId") long replyId){
-		return new ResponseEntity<Boolean>(replyCommentService.delete(replyId), HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteReply(@PathVariable("replyId") long replyId, Authentication authn){
+		String email = authn.getName();
+		boolean deleted = replyCommentService.delete(email, replyId);
+        if (deleted) {
+            return ResponseEntity.ok().body(deleted);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(deleted);
+        }
 	}
 	
 	

@@ -23,8 +23,8 @@ import lombok.Setter;
 @Getter 
 @Setter
 @Entity
-@Table(name = "screenTechs")
-public class ScreenTech implements Serializable {
+@Table(name = "display_technologies")
+public class DisplayTechnology implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -35,7 +35,7 @@ public class ScreenTech implements Serializable {
 
 	@ManyToMany(fetch = FetchType.LAZY, 
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
-			mappedBy = "screenTechs")
+			mappedBy = "displayTechnologies")
 	@JsonIgnore
 	private Set<LaptopDetails> laptops = new HashSet<>();
 }

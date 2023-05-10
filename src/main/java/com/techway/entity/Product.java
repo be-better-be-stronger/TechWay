@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Nationalized;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

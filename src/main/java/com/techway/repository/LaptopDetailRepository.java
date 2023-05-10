@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.techway.entity.LaptopDetails;
 
 public interface LaptopDetailRepository extends JpaRepository<LaptopDetails, Long>{
-	List<LaptopDetails> findLaptopsByScreenTechsId(Long screenTechId);
+	List<LaptopDetails> findLaptopDetailsByDisplayTechnologies_Id(Long displayTechnologyId);
 }

@@ -37,13 +37,13 @@ public class CameraFeature implements Serializable{
 	
 	@ManyToMany(fetch = FetchType.LAZY, 
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
-			mappedBy = "backCameraFeatures")
+			mappedBy = "mainCameraFeatures")
 	@JsonIgnore
-	private Set<PhoneDetails> backCameraPhones = new HashSet<>();
+	private Set<PhoneDetails> mainCameraPhones = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, 
 			cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
-			mappedBy = "frontCameraFeatures")
+			mappedBy = "selfieCameraFeatures")
 	@JsonIgnore
-	private Set<PhoneDetails> frontCameraPhones = new HashSet<>();
+	private Set<PhoneDetails> selfieCameraPhones = new HashSet<>();
 }

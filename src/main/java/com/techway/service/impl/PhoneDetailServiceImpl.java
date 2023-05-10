@@ -17,14 +17,14 @@ import com.techway.repository.AdvancedSecurityRepository;
 import com.techway.repository.CameraFeatureRepository;
 import com.techway.repository.PhoneDetailRepository;
 import com.techway.repository.ProductRepository;
-import com.techway.repository.ScreenTechRepository;
+import com.techway.repository.DisplayTechRepository;
 import com.techway.repository.SpecialFeatureRepository;
 import com.techway.service.PhoneDetailService;
 @Service
 public class PhoneDetailServiceImpl implements PhoneDetailService{
 	@Autowired	private PhoneDetailRepository phoneDetailRepository;
 	@Autowired	private ProductRepository productRepository;
-	@Autowired	private ScreenTechRepository screenTechRepository;
+	@Autowired	private DisplayTechRepository displayTechRepository;
 	@Autowired	private CameraFeatureRepository cameraFeatureRepository;
 	@Autowired	private AdvancedSecurityRepository advancedSecurityRepository;
 	@Autowired private SpecialFeatureRepository specialFeatureRepository;
@@ -63,29 +63,29 @@ public class PhoneDetailServiceImpl implements PhoneDetailService{
 	
 	private PhoneDetails requestToEntity(PhoneDetailRequest request, PhoneDetails entity) {
 		entity.setProduct(productRepository.findById(request.getId()).get());
-		entity.setScreenTech(screenTechRepository.findById(request.getScreenTech()).get());
-		entity.setScreenResolution(request.getScreenResolution());
-		entity.setScreenWidth(request.getScreenWidth());
+		entity.setDisplayTechnology(displayTechRepository.findById(request.getScreenTech()).get());
+		entity.setDisplayResolution(request.getScreenResolution());
+		entity.setScreenSize(request.getScreenWidth());
 		entity.setMaxLight(request.getMaxLight());
 		entity.setGlass(request.getGlass());
-		entity.setBackCameraResolution(request.getBackCameraResolution());
-		entity.setFrontCameraResolution(request.getFrontCameraResolution());
+		entity.setMainCameraResolution(request.getBackCameraResolution());
+		entity.setSelfieCameraResolution(request.getFrontCameraResolution());
 		entity.setFlash(request.isFlash());
 		
 		Set<CameraFeature> backcameraFeatures = new HashSet<CameraFeature>();
 		request.getBackCameraFeatures().stream().forEach(
 				id -> backcameraFeatures.add(cameraFeatureRepository.findById(id).get())
 				);
-		entity.setBackCameraFeatures(backcameraFeatures);
+		entity.setMainCameraFeatures(backcameraFeatures);
 		
 		Set<CameraFeature> frontCameraFeatures = new HashSet<CameraFeature>();
 		request.getBackCameraFeatures().stream().forEach(
 				id -> frontCameraFeatures.add(cameraFeatureRepository.findById(id).get())
 				);
-		entity.setFrontCameraFeatures(frontCameraFeatures);
+		entity.setSelfieCameraFeatures(frontCameraFeatures);
 		
 		entity.setOs(request.getOs());
-		entity.setCpu(request.getCpu());
+		entity.setChipset(request.getCpu());
 		entity.setCpuSpeed(request.getCpuSpeed());
 		entity.setGpu(request.getGpu());
 		entity.setRam(request.getRam());
@@ -97,8 +97,8 @@ public class PhoneDetailServiceImpl implements PhoneDetailService{
 		entity.setBluetooth(request.getBluetooth());
 		entity.setPort(request.getPort());
 		entity.setJackPhone(request.getJackPhone());
-		entity.setPinCapacity(request.getPinCapacity());
-		entity.setPinType(request.getPinType());
+		entity.setBatteryCapacity(request.getPinCapacity());
+		entity.setBatteryType(request.getPinType());
 		entity.setMaxChargingSupport(request.getMaxChargingSupport());
 		
 		Set<AdvancedSecurity> advancedSecurities = new HashSet<AdvancedSecurity>();

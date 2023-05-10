@@ -8,10 +8,10 @@ public interface ReplyCommentService {
 
 	List<ReplyCommentDto> findAllByUserId(Long userId);
 
-	ReplyCommentDto create(ReplyCommentDto dto);
-
-	boolean delete(long replyId);
+	boolean delete(String email, long replyId);
 
 	List<ReplyCommentDto> findAllByCommentId(Long commentId);
+
+	ReplyCommentDto create(String email, ReplyCommentDto dto);
 
 }

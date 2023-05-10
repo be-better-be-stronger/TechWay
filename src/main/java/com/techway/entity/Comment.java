@@ -14,9 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -31,7 +28,6 @@ public class Comment implements Serializable{
 	private Long id;
 	
 	@Column(columnDefinition = "ntext")
-	@NotNull
 	String content;
 
 	@ManyToOne
@@ -40,7 +36,6 @@ public class Comment implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
-	@JsonIgnore
 	private Product product;
 	
 	@Temporal(TemporalType.DATE)
