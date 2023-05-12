@@ -34,7 +34,7 @@ public class Order implements Serializable{
 
 	
 	private String shippingStatus;
-	private double deliveryFee;
+	private double shipping; //phí ship
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "order_date")
@@ -50,4 +50,12 @@ public class Order implements Serializable{
 	@Nationalized
 	private String address;
 	private String phone;
+	
+	public double getSubtotal() {
+		double subtotal = 0;
+		for (OrderDetail o : orderDetails) {
+			subtotal = subtotal + (o.getProduct().getPrice() * o.getQuantity());			
+		}
+		return subtotal;
+	}
 }

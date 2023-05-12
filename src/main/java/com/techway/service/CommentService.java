@@ -10,7 +10,7 @@ public interface CommentService {
 	List<CommentDto> findAllByProductIdOrderByCreatedDateDesc(Long productId);
 
 	//Tạo comment
-	CommentDto save(String email, Long productId, CommentDto commentRequest);
+	CommentDto save(String email, Long productId, String orderId, CommentDto commentRequest);
 
 	//delete comment
     Boolean delete(String email, Long commentId);

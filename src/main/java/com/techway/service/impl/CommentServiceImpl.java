@@ -10,11 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.techway.RoleName;
 import com.techway.dto.CommentDto;
 import com.techway.entity.Comment;
+import com.techway.entity.Order;
+import com.techway.entity.OrderDetail;
 import com.techway.entity.Product;
 import com.techway.entity.Role;
 import com.techway.entity.User;
 import com.techway.exception.APIException;
 import com.techway.repository.CommentRepository;
+import com.techway.repository.OrderDetailRepository;
+import com.techway.repository.OrderRepository;
 import com.techway.repository.ProductRepository;
 import com.techway.repository.ReplyCommentRepository;
 import com.techway.repository.RoleRepository;
@@ -34,6 +38,10 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
     @Autowired 
     private RoleRepository roleRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     public List<CommentDto> findAllByProductIdOrderByCreatedDateDesc(Long productId) {
@@ -50,7 +58,11 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public CommentDto save(String email, Long productId, CommentDto commentRequest) {
+    public CommentDto save(String email, Long productId, String orderId, CommentDto commentRequest) {
+    	Order order = orderRepository.findByOrderIdAndUserEmail(orderId, email);
+    	if(!orderDetailRepository.existsByOrder_IdAndProduct_Id(order.getId(), productId)) {
+    		return null;
+    	}
     	commentRequest.setCreatedBy(email);
     	commentRequest.setProductId(productId);
     	Comment savedComment = commentRepository.save(toEntity(commentRequest));

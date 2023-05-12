@@ -15,8 +15,8 @@ public interface ReplyCommentRepository extends JpaRepository<ReplyComment, Long
 	List<ReplyComment> findByCommentIdOrderByCreatedDateDesc(Long commentId);
 	
 	void deleteByUserIdAndId(Long userId, Long id);
-	
-	void deleteByCommentId(String email, Long commentId);
+//	
+//	void deleteByCommentId(String email, Long commentId);
 	
 	@Transactional
     @Modifying

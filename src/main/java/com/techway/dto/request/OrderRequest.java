@@ -1,6 +1,8 @@
 package com.techway.dto.request;
 
-import com.techway.dto.CartDto;
+import java.util.List;
+
+import com.techway.entity.CartItem;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRequest {
-	private CartDto cart;
-	private double deliveryFee;
+	private List<CartItem> cartItems;
+	private double shipping; //phí ship
 	private String address;
 	private String phone;
 }

@@ -11,12 +11,14 @@ public class ProductDto {
 	private Long id;
 	private String name;
 	private Double price;
+	private String image;
 	
 	public static ProductDto fromEntity(Product product) {
 		ProductDto productDto = new ProductDto();
 		productDto.setId(product.getId());
 		productDto.setName(product.getName());
 		productDto.setPrice(product.getPrice());
+		productDto.setImage(product.getImages());
 		return productDto;
 	}
 	

@@ -62,5 +62,5 @@ public class Product implements Serializable{
 	@JoinColumn(name = "color_id")
 	private Color color;
 
-		
+	private int quantity;
 }

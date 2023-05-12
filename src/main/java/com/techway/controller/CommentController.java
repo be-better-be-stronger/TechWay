@@ -35,20 +35,21 @@ public class CommentController {
     }
 
     //create new Comment for a Product
-    @PostMapping("/product/{id}")
+    @PostMapping("/product/{id}/order/{orderId}")
     public ResponseEntity<CommentDto> createComment(Authentication authentication, 
     		@PathVariable(value = "id") Long productId,
+    		@PathVariable(value = "oderId") String orderId,
             @RequestBody @Validated CommentDto commentRequest) {
     	String email = authentication.getName();
     	System.out.println("User's email: " +  email);
-        CommentDto comment = commentService.save(email, productId, commentRequest);
+        CommentDto comment = commentService.save(email, productId, orderId, commentRequest);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
    
     
     //
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteComment(Authentication authentication, @PathVariable Long commentId) {
+    public ResponseEntity<Boolean> deleteComment(Authentication authentication, @PathVariable("id") Long commentId) {
     	String email = authentication.getName();
     	System.out.println("User's email: " +  email);
     	
