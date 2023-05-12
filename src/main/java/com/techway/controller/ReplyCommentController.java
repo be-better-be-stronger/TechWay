@@ -34,15 +34,15 @@ public class ReplyCommentController {
 	@Autowired
 	CommentRepository commentRepository;
 	
-	@GetMapping("/user/{userId}")
-	public ResponseEntity<List<ReplyCommentDto>> getCommentsByUserId(@PathVariable("userId") Long userId){
-		List<ReplyCommentDto> list = replyCommentService.findAllByUserId(userId);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+
+	//1. lấy danh sách reply theo commentId sắp xếp theo lated createDate  -> ANY ROLE
+	//2. Trả lời comment -> ROLE_STAFF, ROLE_DIRE
+	//3. Xóa reply  -> chỉ người tạo hoặc ROLE_DIRE được phép xóa
+
 	
 	@GetMapping("/comment/{commentId}")
 	public ResponseEntity<List<ReplyCommentDto>> getCommentsByCommentId(@PathVariable("commentId") Long commentId, Principal principal){
-		List<ReplyCommentDto> list = replyCommentService.findAllByCommentId(commentId);
+		List<ReplyCommentDto> list = replyCommentService.getReplyCommentsByCommentId(commentId);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
@@ -51,19 +51,20 @@ public class ReplyCommentController {
 			Authentication authn){
 		String email = authn.getName();
 		System.out.println(email); 
-		ReplyCommentDto reply = replyCommentService.create(email, dto);
+		ReplyCommentDto reply = replyCommentService.save(email, dto);
 		return new ResponseEntity<ReplyCommentDto>(reply, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{replyId}")
-	public ResponseEntity<Boolean> deleteReply(@PathVariable("replyId") long replyId, Authentication authn){
-		String email = authn.getName();
-		boolean deleted = replyCommentService.delete(email, replyId);
-        if (deleted) {
-            return ResponseEntity.ok().body(deleted);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(deleted);
-        }
+	public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Long replyId, Authentication authn){
+		try {
+			String email = authn.getName();
+			replyCommentService.delete(email, replyId);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

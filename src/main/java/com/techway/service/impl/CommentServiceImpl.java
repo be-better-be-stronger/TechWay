@@ -14,9 +14,9 @@ import com.techway.entity.Product;
 import com.techway.entity.Role;
 import com.techway.entity.User;
 import com.techway.exception.APIException;
-import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ProductRepository;
+import com.techway.repository.ReplyCommentRepository;
 import com.techway.repository.RoleRepository;
 import com.techway.repository.UserRepository;
 import com.techway.service.CommentService;
@@ -25,37 +25,35 @@ import com.techway.service.CommentService;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
     @Autowired
-    ProductRepository productRepository;
+    private ReplyCommentRepository replyCommentRepository;
     @Autowired
-    UserRepository userRepository;
-    @Autowired RoleRepository roleRepository;
+    private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired 
+    private RoleRepository roleRepository;
 
     @Override
-    public List<CommentDto> findByProductId(Long productId) {
-        if (!productRepository.existsById(productId)) {
-            throw new ResourceNotFoundException(String.format("Product Id %d not found", productId));
-        }
-        List<CommentDto> comments = commentRepository.findAllByProductId(productId).stream().map(
-        		comment -> fromEntity(comment)).collect(Collectors.toList()
-        );
-        return comments;
+    public List<CommentDto> findAllByProductIdOrderByCreatedDateDesc(Long productId) {
+    	try {
+    		 List<CommentDto> comments = commentRepository.findAllByProductIdOrderByCreatedDateDesc(productId).stream().map(
+    	        		comment -> fromEntity(comment)).collect(Collectors.toList()
+    	        );
+    		 return comments;
+		} catch (Exception e) {
+			return null;
+		}
     }
 
-    @Override
-    public Comment findBytId(Long id) {
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Comment Id %d not found", id)));
-        return comment;
-    }
+
 
     @Override
     public CommentDto save(String email, Long productId, CommentDto commentRequest) {
-    	Comment comment = new Comment();
     	commentRequest.setCreatedBy(email);
     	commentRequest.setProductId(productId);
-    	Comment savedComment = commentRepository.save(toEntity(commentRequest, comment));
+    	Comment savedComment = commentRepository.save(toEntity(commentRequest));
         return fromEntity(savedComment);
     }
 
@@ -63,18 +61,21 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Boolean delete(String email, Long commentId) {
         
-        User user = userRepository.findByEmail(email).get();
-        
-        Role roleDire = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
-		if(!user.getRoles().contains(roleDire)) {
-			Comment comment = commentRepository.findByEmailAndCommentId(email, commentId).orElseThrow(
-	        		() -> new APIException(String.format("User with email %s are not permitted to delete comment with id %d", 
-	        				email, commentId))
-	        		);
-			System.out.println(fromEntity(comment));
-		}		
-		commentRepository.deleteById(commentId);       
-       return true;
+        try {
+        	User user = userRepository.findByEmail(email).get();
+            
+            Role roleDire = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
+    		if(!user.getRoles().contains(roleDire)) {
+    			Comment comment = commentRepository.findByEmailAndCommentId(email, commentId).get();
+    			System.out.println(fromEntity(comment));
+    		}	
+    		replyCommentRepository.deleteByCommentId(commentId);
+    		commentRepository.deleteById(commentId);  
+    		return true;
+		} catch (APIException e) {
+			System.out.println(String.format("User with email %s is not permitted to delete comment with id %d", email, commentId));
+			return false;
+		}  
     }
     
     public CommentDto fromEntity(Comment comment) {
@@ -86,7 +87,8 @@ public class CommentServiceImpl implements CommentService {
 	    return commentDto;
 	}
 	
-	public  Comment toEntity(CommentDto commentDto, Comment comment) {
+	public  Comment toEntity(CommentDto commentDto) {
+		Comment comment = new Comment();
 	    comment.setContent(commentDto.getContent());
 	    comment.setUser(userRepository.findByEmail(commentDto.getCreatedBy()).get());
 	    Product product = productRepository.findById(commentDto.getProductId()).get();

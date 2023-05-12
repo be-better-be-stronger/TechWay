@@ -19,6 +19,10 @@
 //@CrossOrigin("*")
 //@RequestMapping("/api/v1/orders")
 //public class OrderController {
+//	
+//	//1. lấy ra danh sách đơn hàng theo user(Role)
+//	//2. 
+//	
 //	@Autowired
 //	private OrderService orderService;
 //

@@ -3,15 +3,15 @@ package com.techway.service;
 import java.util.List;
 
 import com.techway.dto.CommentDto;
-import com.techway.entity.Comment;
 
 public interface CommentService {
-//
-	List<CommentDto> findByProductId(Long productId);
+	
+	//List  comment theo productId sắp xếp theo ngày tạo mới nhất
+	List<CommentDto> findAllByProductIdOrderByCreatedDateDesc(Long productId);
 
-	Comment findBytId(Long id);
-
+	//Tạo comment
 	CommentDto save(String email, Long productId, CommentDto commentRequest);
 
+	//delete comment
     Boolean delete(String email, Long commentId);
 }

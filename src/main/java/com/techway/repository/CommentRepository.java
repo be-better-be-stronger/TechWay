@@ -11,16 +11,12 @@ import org.springframework.data.repository.query.Param;
 import com.techway.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
+	//lay ds comment theo productId sắp sếp theo ng ày tạo mới nhất
+	List<Comment> findAllByProductIdOrderByCreatedDateDesc(Long productId);
 	
 	@Query("SELECT c FROM Comment c WHERE c.user.email = :email AND c.id = :commentId")
     Optional<Comment> findByEmailAndCommentId(@Param("email") String email, @Param("commentId") Long commentId);
 
-//	@Modifying
-//	@Query("delete from Comment c where c.user = :user and c.product = :product")
-//	Integer deleteByUserAndProduct(@Param("user") User user, @Param("product") Product product);
-
-	List<Comment> findAllByProductId(Long productId);
-	
 	void deleteByProduct_Id(Long productId);
 	
 	@Modifying

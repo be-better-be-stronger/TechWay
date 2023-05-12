@@ -23,13 +23,15 @@ import com.techway.service.CommentService;
 @RestController
 @RequestMapping("/api/v1/comments")
 public class CommentController {
+	
     @Autowired
     private CommentService commentService;
+
 
     // retrieve comments of a product
     @GetMapping("/product/{id}")
     public ResponseEntity<List<CommentDto>> getAllCommentsByProductId(@PathVariable(value = "id") Long productId) {
-        return new ResponseEntity<>(commentService.findByProductId(productId), HttpStatus.OK);
+        return new ResponseEntity<>(commentService.findAllByProductIdOrderByCreatedDateDesc(productId), HttpStatus.OK);
     }
 
     //create new Comment for a Product
@@ -43,10 +45,13 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
    
+    
+    //
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteComment(Authentication authentication, @PathVariable Long commentId) {
     	String email = authentication.getName();
     	System.out.println("User's email: " +  email);
+    	
         Boolean deletedCommentStatus = commentService.delete(email, commentId);
         if (deletedCommentStatus) {
             return ResponseEntity.ok().body(deletedCommentStatus);

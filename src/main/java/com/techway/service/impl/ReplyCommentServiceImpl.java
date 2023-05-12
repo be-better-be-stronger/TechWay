@@ -13,6 +13,7 @@ import com.techway.entity.Comment;
 import com.techway.entity.ReplyComment;
 import com.techway.entity.Role;
 import com.techway.entity.User;
+import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CommentRepository;
 import com.techway.repository.ReplyCommentRepository;
 import com.techway.repository.RoleRepository;
@@ -21,8 +22,7 @@ import com.techway.service.ReplyCommentService;
 
 @Service
 public class ReplyCommentServiceImpl implements ReplyCommentService{
-//	@Autowired
-//	HttpServletRequest requestServlet;
+
 	@Autowired
 	ReplyCommentRepository replyCommentRepository;
 	@Autowired
@@ -31,26 +31,22 @@ public class ReplyCommentServiceImpl implements ReplyCommentService{
 	CommentRepository commentRepository;
 	@Autowired
 	RoleRepository roleRepository;
-	
-	
-//	String email = requestServlet.getUserPrincipal().getName();
-	
+
+
 	@Override
-	public List<ReplyCommentDto> findAllByUserId(Long userId) {
-		return replyCommentRepository.findAllByUserId(userId).stream().map(
-				reply -> mapEntityToDto(reply)
-				).collect(Collectors.toList());
+	public List<ReplyCommentDto> getReplyCommentsByCommentId(Long commentId) {
+		try {
+			return replyCommentRepository.findByCommentIdOrderByCreatedDateDesc(commentId).stream().map(
+					reply -> mapEntityToDto(reply)
+					).collect(Collectors.toList());
+		} catch (ResourceNotFoundException e) {
+			System.out.println(String.format("Comment with id %s not found", commentId));
+			return null;
+		}
 	}
 	
 	@Override
-	public List<ReplyCommentDto> findAllByCommentId(Long commentId) {
-		return replyCommentRepository.findAllByUserId(commentId).stream().map(
-				reply -> mapEntityToDto(reply)
-				).collect(Collectors.toList());
-	}
-	
-	@Override
-	public ReplyCommentDto create(String email, ReplyCommentDto dto) {
+	public ReplyCommentDto save(String email, ReplyCommentDto dto) {
 		dto.setCreatedBy(email);
 		ReplyComment reply = mapDtoToEntity(dto);		
 		return mapEntityToDto(replyCommentRepository.save(reply));
@@ -59,10 +55,9 @@ public class ReplyCommentServiceImpl implements ReplyCommentService{
 
 	@Override
 	@Transactional
-	public boolean delete(String email, long replyId) {	
-
-		Role role = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
+	public void delete(String email, Long replyId) {			
 		try {
+			Role role = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
 			User user = userRepository.findByEmail(email).get();
 			Long userId = user.getId();
 			if (user.getRoles().contains(role)) {
@@ -70,9 +65,8 @@ public class ReplyCommentServiceImpl implements ReplyCommentService{
 			}else {
 				replyCommentRepository.deleteByUserIdAndId(userId, replyId);
 			}
-			return true;
 		} catch (Exception e) {
-			return false;
+			e.printStackTrace();
 		}
 	}
 	
