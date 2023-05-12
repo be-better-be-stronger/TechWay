@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techway.RoleName;
+import com.techway.ShippingStatus;
 import com.techway.dto.CommentDto;
 import com.techway.entity.Comment;
 import com.techway.entity.Order;
-import com.techway.entity.OrderDetail;
 import com.techway.entity.Product;
 import com.techway.entity.Role;
 import com.techway.entity.User;
@@ -60,9 +60,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto save(String email, Long productId, String orderId, CommentDto commentRequest) {
     	Order order = orderRepository.findByOrderIdAndUserEmail(orderId, email);
+    	if (order.getShippingStatus() != String.valueOf(ShippingStatus.DELIVERED)) {
+			return null;
+		}
     	if(!orderDetailRepository.existsByOrder_IdAndProduct_Id(order.getId(), productId)) {
     		return null;
-    	}
+    	}    	
     	commentRequest.setCreatedBy(email);
     	commentRequest.setProductId(productId);
     	Comment savedComment = commentRepository.save(toEntity(commentRequest));

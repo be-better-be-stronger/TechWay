@@ -1,30 +1,30 @@
 package com.techway.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.techway.ShippingStatus;
-import com.techway.dto.CartDto;
+import com.techway.dto.CartItemDto;
 import com.techway.dto.OrderDetailDto;
 import com.techway.dto.request.OrderRequest;
 import com.techway.dto.response.OrderResponse;
-import com.techway.entity.Cart;
-import com.techway.entity.CartItem;
 import com.techway.entity.Order;
 import com.techway.entity.OrderDetail;
 import com.techway.exception.APIException;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CartItemRepository;
-import com.techway.repository.CartRepository;
+import com.techway.repository.OrderDetailRepository;
 import com.techway.repository.OrderRepository;
+import com.techway.repository.ProductRepository;
+import com.techway.repository.UserRepository;
 import com.techway.service.OrderService;
 
 @Service
@@ -35,7 +35,11 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private CartItemRepository cartItemRepository; 
 	@Autowired
-	private  CartRepository cartRepository;
+	private ProductRepository productRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private OrderDetailRepository orderDetailRepository;
 	
 	//1. lấy danh sách order theo user email
 	//2. lấy order theo id, email order by recent place order
@@ -65,9 +69,31 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderResponse placeOrder(OrderRequest orderRequest, String email) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	@Modifying
+	public OrderResponse placeOrder(OrderRequest request, String email) {
+		Order order = new Order();
+		 String orderId = generateOrderId();
+		 order.setId(orderId);
+		 order.setShippingStatus(String.valueOf(ShippingStatus.PREPARING));
+		 order.setShipping(request.getShipping());
+		 order.setAddress(request.getAddress());
+		 order.setPhone(request.getPhone());
+		 order.setUser(userRepository.findByEmail(email).get());
+		 Order savedOrder = orderRepository.save(order);
+		 
+		 List<CartItemDto> cartItemDtos = request.getCartItems();
+		 List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
+		 for (CartItemDto item : cartItemDtos) {
+			OrderDetail o = new OrderDetail();
+			o.setQuantity(item.getQuantity());
+			o.setProduct(productRepository.findById(item.getProduct().getId()).get());
+			o.setOrder(savedOrder);
+			orderDetailRepository.save(o);
+			orderDetails.add(o);
+			cartItemRepository.deleteById(item.getId());
+		}
+		 return fromEntity(savedOrder);
 	}	
 
 	@Override
@@ -101,10 +127,7 @@ public class OrderServiceImpl implements OrderService {
 		return response;
 	}
 	
-	 public Order toEntity(OrderRequest request) {
-		 
-		 return null;
-	 }
+	
 	 public String generateOrderId() {
 		 String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	        int LENGTH = 10;
