@@ -2,7 +2,6 @@ package com.techway.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -96,16 +95,19 @@ public class OrderServiceImpl implements OrderService {
 		 return fromEntity(savedOrder);
 	}	
 
+	//hủy đơn 
 	@Override
 	@Transactional
 	public boolean deleteOrder(String id, String email) {
-		Optional<Order> optionalOrder = orderRepository.findById(id);
-		if (optionalOrder.isPresent()) {
-			Order order = optionalOrder.get();
-			orderRepository.delete(order);
-			return true;
+		try {
+			Order order = orderRepository.findByOrderIdAndUserEmail(id, email);
+			if(order.getShippingStatus() == String.valueOf(ShippingStatus.PREPARING)) {
+				orderRepository.delete(order);
+				return true;
+			}else return false;
+		} catch (Exception e) {
+			return false;
 		}
-		return false;
 	}
 
 	public OrderResponse fromEntity(Order savedOrder) {
