@@ -55,9 +55,9 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/user")
-    public String getUser(Authentication authentication) {
-        String username = authentication.getName();// Lấy tên đăng nhập của người dùng
-        return "Xin chào " + username;
-    }
+//    @GetMapping("/user")
+//    public String getUser(Authentication authentication) {
+//        String username = authentication.getName();// Lấy tên đăng nhập của người dùng
+//        return "Xin chào " + username;
+//    }
 }

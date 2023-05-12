@@ -75,13 +75,12 @@ insert into special_features values (N'Phát hiện va chạm (Crash Detection)'
 	(N'Chặn tin nhắn')
 	
 go
-insert into screen_techs values (N'Dynamic AMOLED 2X'),
+insert into display_technologies values (N'Dynamic AMOLED 2X'),
 	(N'Super Retina XDR'),
 	(N'IPS LCD'),
 	(N'Super AMOLED')
 
-select *from 
-	
+go
 select * from orders
 select * from products
 select * from colors
@@ -116,6 +115,6 @@ insert into products(product_no, name, [images], price, available, category_id, 
 
 select color_id from products o where o.product_no = 'ASUS15X'
 select * from phone_details
+insert into users (enabled, email, fullname, password) values (1, N'huytony616@gmail.com', N'Lee Huy',N'$2a$10$o0EP7RZRwaoVBfKZ2rx87uidWEDZ8tHWreuCKw8MwQ0JPkfHW0LDa')
+insert into user_roles(user_id, role_id) values (2, 1), (2, 2), (2, 3)
 
-insert into users (email, fullname, password) values (N'huytony616@gmail.com', N'Lee Huy',N'$2a$10$o0EP7RZRwaoVBfKZ2rx87uidWEDZ8tHWreuCKw8MwQ0JPkfHW0LDa')
-insert into user_roles(user_id, role_id) values (1, 1), (1, 2), (1, 3)

@@ -21,6 +21,12 @@ import com.techway.service.CartService;
 @CrossOrigin("*")
 @RequestMapping("/api/v1/cart")
 public class CartController {
+	
+	//1. Lấy thông tin giỏ hàng theo User -> get: /api/v1/cart
+	//2. Thêm sản phẩm vào giỏ hàng -> post: /api/v1/cart/product/:productId
+	//3. cập nhật số lượng sản phẩm trong giỏ hàng(update CartItem) -> put: /api/v1/cart/:userId/update-amount
+	//4. Xóa sản phẩm trong giỏ hàng -> delete: /api/v1/cart/remove-product/:productId
+	//5. xóa toàn bộ sản phẩm trong giỏ hàng -> /api/v1/cart/clear-cart
 
     @Autowired
     private CartService cartService;
@@ -45,16 +51,13 @@ public class CartController {
     }
 
     // Cập nhật số lượng sản phẩm trong giỏ hàng
-    @PutMapping("/{userId}/updateAmount")
+    @PutMapping("/{userId}/update-amount")
     public ResponseEntity<CartDto> updateProductInCart(@RequestBody CartItemDto cartItemDto, Authentication authentication) {
-    	 
     	String email = authentication.getName();
     	CartDto cartDTO = cartService.updateProductInCart(email, cartItemDto);
-
          if (cartDTO == null) {
              return ResponseEntity.notFound().build();
          }
-
          return ResponseEntity.ok().body(cartDTO);
     }
 
@@ -76,15 +79,4 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
     
-
-    // Tính tổng giá trị của các sản phẩm trong giỏ hàng
-//    private Double calculateTotalValue(List<CartItem> cartItems) {
-//        Double totalValue = 0.0;
-//        
-//        for (CartItem item : cartItems) {
-//            totalValue += item.getProduct().getPrice() * item.getQuantity();
-//        }
-//        
-//        return totalValue;
-//    }
 }
