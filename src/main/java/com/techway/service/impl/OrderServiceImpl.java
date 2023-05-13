@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.techway.RoleName;
 import com.techway.ShippingStatus;
 import com.techway.dto.CartItemDto;
 import com.techway.dto.OrderDetailDto;
@@ -17,12 +18,15 @@ import com.techway.dto.request.OrderRequest;
 import com.techway.dto.response.OrderResponse;
 import com.techway.entity.Order;
 import com.techway.entity.OrderDetail;
+import com.techway.entity.Role;
+import com.techway.entity.User;
 import com.techway.exception.APIException;
 import com.techway.exception.ResourceNotFoundException;
 import com.techway.repository.CartItemRepository;
 import com.techway.repository.OrderDetailRepository;
 import com.techway.repository.OrderRepository;
 import com.techway.repository.ProductRepository;
+import com.techway.repository.RoleRepository;
 import com.techway.repository.UserRepository;
 import com.techway.service.OrderService;
 
@@ -39,10 +43,13 @@ public class OrderServiceImpl implements OrderService {
 	private UserRepository userRepository;
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	//1. lấy danh sách order theo user email
 	//2. lấy order theo id, email order by recent place order
 	//3. place  order
+	//4. cancel order
 
 	@Override
 	public List<OrderResponse> getAllOrdersByEmail(String email) {
@@ -100,14 +107,22 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public boolean deleteOrder(String id, String email) {
 		try {
-			Order order = orderRepository.findByOrderIdAndUserEmail(id, email);
-			if(order.getShippingStatus() == String.valueOf(ShippingStatus.PREPARING)) {
-				orderRepository.delete(order);
-				return true;
-			}else return false;
+			User user = userRepository.findByEmail(email).get();
+			Role role = roleRepository.findByName(String.valueOf(RoleName.ROLE_DIRE)).get();
+			if(user.getRoles().contains(role)) {
+				orderRepository.deleteById(id);
+			}else {
+				Order order = orderRepository.findByOrderIdAndUserEmail(id, email);
+				if(order.getShippingStatus() == String.valueOf(ShippingStatus.PREPARING)) {
+					orderRepository.delete(order);
+				}else return false;
+			}
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
+		return true;
 	}
 
 	public OrderResponse fromEntity(Order savedOrder) {
