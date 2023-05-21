@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 		 return fromEntity(savedOrder);
 	}	
 
-	//hủy đơn 
+	//hủy đơn khi đơn hàng chưa được giao đi -> người tạo đơn hàng hoặc ROLE_DIRE
 	@Override
 	@Transactional
 	public boolean deleteOrder(String id, String email) {

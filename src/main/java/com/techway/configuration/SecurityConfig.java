@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -60,16 +61,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.cors()
         	.and()
         	.csrf().disable()
+        	.authorizeRequests()
+            .antMatchers(HttpMethod.GET, "/api/v1/advanced-securities/**").permitAll()
+            .antMatchers("/api/v1/advanced-securities/**").hasAnyRole("ROLE_STAF", "ROLE_DIRE")
+            .anyRequest().authenticated()
+            .and()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()        	
-        	.formLogin().disable()
         	.httpBasic().disable()
-        	.logout().disable();
-
-	       	
+        	.logout().disable();	       	
         
-        http.authorizeRequests().anyRequest().permitAll();
-        
+        http.authorizeRequests().anyRequest().permitAll();        
         
         //the server will return HTTP status 401 (Unauthorized) 
         //if any error occurs during authentication process

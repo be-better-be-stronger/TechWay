@@ -20,13 +20,13 @@ import com.techway.service.ProductService;
 public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	@Autowired
-	CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 	@Autowired
-	ManufacturerRepository manufacturerRepository;
+	private ManufacturerRepository manufacturerRepository;
 	@Autowired
-	ColorRepository colorRepository;
+	private ColorRepository colorRepository;
 
 	@Override
 	public List<Product> findByNameContaining(String name) {
@@ -113,6 +113,9 @@ public class ProductServiceImpl implements ProductService{
 		System.out.println(colors);
 		return colors;
 	}
+
+
+	
 
 
 //	private ProductRequest entityToProductDto(Product savedProduct) {

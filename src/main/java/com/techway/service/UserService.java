@@ -12,7 +12,7 @@ public interface UserService {
 	String getSiteURL(HttpServletRequest request);
 	List<AccountDto> findAll();
 	AccountDto get(Long id);
-	AccountDto updateAccount(Long accountId, AccountDto account);
+	AccountDto updateAccount(String email, AccountDto account);
 	AccountDto findById(Long id);
 	AccountDto findByEmail(String email);
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +24,9 @@ public class UserController {
 	UserService userService;
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
-		AccountDto account = userService.findById(id);
-		return new ResponseEntity<>(account, HttpStatus.OK);
+	public ResponseEntity<AccountDto> updateAccount(Authentication authn, @PathVariable("id") Long id, @RequestBody AccountDto dto) {
+		String email = authn.getName();		
+		return new ResponseEntity<>(userService.updateAccount(email, dto), HttpStatus.OK);
 	} 
 	
 	@GetMapping
