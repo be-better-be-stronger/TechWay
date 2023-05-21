@@ -71,7 +71,7 @@ public class LaptopDetails implements Serializable {
 	@Nationalized
 	String sound; // Công nghệ âm thanh
 
-	public void addDisplayTecchnology(DisplayTechnology technology) {
+	public void addDisplayTechnology(DisplayTechnology technology) {
 		this.displayTechnologies.add(technology);
 		technology.getLaptops().add(this);
 	}

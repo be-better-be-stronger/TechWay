@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers( "api/v1/orders/**").hasAnyRole("ROLE_CUST", "ROLE_STAFF", "ROLE_DIRE")
             .antMatchers(HttpMethod.DELETE, "/api/v1/replies/**").hasAnyRole("ROLE_CUST", "ROLE_DIRE")
             .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("ROLE_CUST", "ROLE_STAFF", "ROLE_DIRE")
-            .anyRequest().authenticated()
+//            .anyRequest().authenticated()
             .and()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()        	

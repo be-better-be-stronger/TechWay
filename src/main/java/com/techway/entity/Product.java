@@ -61,6 +61,4 @@ public class Product implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
-
-	private int quantity;
 }
