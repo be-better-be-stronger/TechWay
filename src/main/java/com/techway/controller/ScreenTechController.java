@@ -25,7 +25,7 @@ import com.techway.service.DisplayTechnService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/screentechs")
-public class DisplayTechController {
+public class ScreenTechController {
 	@Autowired
 	DisplayTechnService displayTechnService;
 

@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,19 +65,16 @@ public class ProductController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
 	public ResponseEntity<Product> create(@RequestBody ProductRequest productRequest) {
 		return new ResponseEntity<>(productService.save(productRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping("{id}")
-	@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
 	public ResponseEntity<Product> update(@PathVariable("id") long id, @RequestBody ProductRequest productRequest) {
 		return new ResponseEntity<>(productService.update(id, productRequest), HttpStatus.OK);
 	}
 
 	@DeleteMapping("{id}")
-	@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
 	public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
 		productService.disable(id);
 		return new ResponseEntity<>(true, HttpStatus.OK);

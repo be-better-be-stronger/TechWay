@@ -13,12 +13,12 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	List<Order> findByEmail(String email);
 
 	@Query("SELECT o FROM Order o WHERE o.id = :orderId AND o.user.email = :email ORDER BY o.orderDate DESC")
-	Order findByOrderIdAndUserEmailSortedByRecentOrderDate(@Param("orderId") String orderId, @Param("email") String email);
+	Order findByOrderIdAndUserEmailSortedByRecentOrderDate(@Param("orderId") String orderId,
+			@Param("email") String email);
 
-	
 	@Query("SELECT o FROM Order o WHERE o.id = :orderId AND o.user.email = :email")
-    Order findByOrderIdAndUserEmail(String orderId, String email);
-	
+	Order findByOrderIdAndUserEmail(String orderId, String email);
+
 	@Query("SELECT MONTH(o.orderDate) AS month, SUM((p.price * od.quantity) + o.shipping) AS total FROM Order o "
 			+ "JOIN o.orderDetails od JOIN od.product p GROUP BY MONTH(o.orderDate)")
 	List<Object[]> findMonthlySales();
@@ -27,5 +27,5 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 			+ "FROM Order o " + "JOIN o.orderDetails od " + "JOIN od.product p "
 			+ "GROUP BY p.category.id, o.orderDate")
 	List<Object[]> findTotalByCategoryAndMonth();
-   
+
 }

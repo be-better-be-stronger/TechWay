@@ -16,7 +16,8 @@ public class CartItemDto {
         CartItemDto cartItemDTO = new CartItemDto();
         cartItemDTO.setId(cartItem.getId());
         cartItemDTO.setQuantity(cartItem.getQuantity());
-        cartItemDTO.setProduct(ProductDto.fromEntity(cartItem.getProduct()));
+        cartItemDTO.setProduct
+        (ProductDto.fromEntity(cartItem.getProduct()));
         return cartItemDTO;
     }
 

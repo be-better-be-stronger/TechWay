@@ -110,7 +110,6 @@ select * from users
 select* from orders
 select * from comments
 select * from products
-select * from products where id = 1
 insert into comments (content, product_id, created_by) values(N'dfhweioafhewi', 1, 1)
 insert into products(product_no, name, [images], price, available, category_id, manufacturer_id, color_id) values('asdfads', 'ss s20', 'photos', 99, 1, 1, 1, 1)
 
@@ -118,6 +117,4 @@ select color_id from products o where o.product_no = 'ASUS15X'
 select * from phone_details
 insert into users (enabled, email, fullname, password) values (1, N'huytony616@gmail.com', N'Lee Huy',N'$2a$10$o0EP7RZRwaoVBfKZ2rx87uidWEDZ8tHWreuCKw8MwQ0JPkfHW0LDa')
 insert into user_roles(user_id, role_id) values (2, 1), (2, 2), (2, 3)
-
-select * from orders
 

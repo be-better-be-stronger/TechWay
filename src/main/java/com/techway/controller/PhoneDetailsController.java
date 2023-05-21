@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,13 +39,11 @@ public class PhoneDetailsController {
 	}
 
 	@PostMapping("{productId}")
-	@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
 	public ResponseEntity<PhoneDetails> create(@PathVariable("productId") long id,
 			@RequestBody PhoneDetailRequest request) {
 		return new ResponseEntity<PhoneDetails>(phoneDetailService.save(id, request), HttpStatus.CREATED);
 	}
 	@PutMapping("{productId}")
-	@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
 	public ResponseEntity<PhoneDetails> update(@PathVariable("productId") long id,
 			@RequestBody PhoneDetailRequest request) {
 		return new ResponseEntity<PhoneDetails>(phoneDetailService.update(id, request), HttpStatus.OK);

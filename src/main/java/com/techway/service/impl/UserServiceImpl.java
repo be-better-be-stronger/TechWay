@@ -107,14 +107,9 @@ public class UserServiceImpl implements UserService{
     }
 
 	@Override
-	public AccountDto updateAccount(String email, AccountDto dto) {
-		User user = userRepository.findByEmail(email).orElseThrow(
-				() -> new ResourceNotFoundException(String.format("User with email %s not found", email))
-				);
-		user.setFullname(dto.getFullName());
-		user.setPhoto(dto.getPhoto());
-		userRepository.save(user);
-		return entityToAccountDto(user);
+	public AccountDto updateAccount(Long accountId, AccountDto account) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	private void sendVerificationEmail(User user, String siteURL)

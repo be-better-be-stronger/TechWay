@@ -15,6 +15,7 @@ import com.techway.service.ReportService;
 public class ReportServiceImpl implements ReportService{
 	@Autowired
 	private OrderRepository orderRepository;
+	
 	@Override
     public List<TotalByMonth> findMonthlySales() {
         return orderRepository.findMonthlySales().stream().map(obj -> {

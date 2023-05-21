@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,20 +16,21 @@ import com.techway.service.ReportService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/v1/report")
-@PreAuthorize("hasRole('ROLE_DIRE', 'ROLE_ADMIN')")
+//@PreAuthorize("hasRole'ROLE_DIRE'")
 public class ReportController {
 	@ Autowired
 	 private  ReportService reportService;
 	
 	@GetMapping("/monthly-sales")
-   public ResponseEntity<List<TotalByMonth>> getMonthlySales() {
-       List<TotalByMonth> monthlySales = reportService.findMonthlySales();
-       return ResponseEntity.ok(monthlySales);
-   }
+    public ResponseEntity<List<TotalByMonth>> getMonthlySales() {
+        List<TotalByMonth> monthlySales = reportService.findMonthlySales();
+        return ResponseEntity.ok(monthlySales);
+    }
 	
 	@GetMapping("/total-by-category-month")
-   public ResponseEntity<List<TotalByCategoryAndMonthDto>> getTotalByCategoryAndMonth() {
+    public ResponseEntity<List<TotalByCategoryAndMonthDto>> getTotalByCategoryAndMonth() {
 		List<TotalByCategoryAndMonthDto> monthlySales = reportService.findTotalByCategoryAndMonth();
-       return ResponseEntity.ok(monthlySales);
-   }
+        return ResponseEntity.ok(monthlySales);
+    }
+	
 }

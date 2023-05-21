@@ -31,7 +31,7 @@ public class OrderController {
 	private OrderService orderService;
 
 	//lay danh sach order
-	@GetMapping("/")
+	@GetMapping()
 	public ResponseEntity<List<OrderResponse>> getAllOrders(Authentication authentication) {
 		String email = authentication.getName();
 		List<OrderResponse> orders = orderService.getAllOrdersByEmail(email);
@@ -51,7 +51,7 @@ public class OrderController {
 		return new ResponseEntity<>(order, HttpStatus.OK);
 	}
 	// place order
-	@PostMapping("/")
+	@PostMapping()
 	public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest orderRequest, Authentication authn) {
 		String email = authn.getName();
 		OrderResponse order = orderService.placeOrder(orderRequest, email);
