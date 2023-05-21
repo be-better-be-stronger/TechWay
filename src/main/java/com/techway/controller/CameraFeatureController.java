@@ -31,6 +31,7 @@ public class CameraFeatureController {
 		return new ResponseEntity<List<CameraFeature>>(cameraService.findAll(), HttpStatus.OK);
 	}
 
+	@GetMapping("{/id}")
 	public ResponseEntity<CameraFeature> getOne(@PathVariable("id") Integer id) {
 		return new ResponseEntity<CameraFeature>(cameraService.findById(id), HttpStatus.OK);
 	}

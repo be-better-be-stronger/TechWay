@@ -20,8 +20,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.techway.security.jwt.JwtTokenFilter;
 import com.techway.security.UserDetailsSeviceImpl;
+import com.techway.security.jwt.JwtTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -62,8 +62,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.and()
         	.csrf().disable()
         	.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/api/v1/advanced-securities/**").permitAll()
-            .antMatchers("/api/v1/advanced-securities/**").hasAnyRole("ROLE_STAF", "ROLE_DIRE")
+            .antMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+            .antMatchers(HttpMethod.PUT, "api/v1/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE")
+            .antMatchers(HttpMethod.POST, "api/v1/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE")
+            .antMatchers(HttpMethod.DELETE, "api/v1/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE")
+            .antMatchers("/api/v1/auth/**").permitAll()
+            .antMatchers(HttpMethod.PUT, "/api/v1/auth/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE", "ROLE_CUST")
+            .antMatchers("/api/v1/cart/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE", "ROLE_CUST")
+            .antMatchers("/api/v1/comments/**").hasAnyRole("ROLE_STAFF", "ROLE_DIRE", "ROLE_CUST")
+            .antMatchers(HttpMethod.DELETE, "api/v1/comments/**").hasAnyRole("ROLE_CUST", "ROLE_DIRE")
+            .antMatchers( "api/v1/orders/**").hasAnyRole("ROLE_CUST", "ROLE_STAFF", "ROLE_DIRE")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/replies/**").hasAnyRole("ROLE_CUST", "ROLE_DIRE")
+            .antMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("ROLE_CUST", "ROLE_STAFF", "ROLE_DIRE")
             .anyRequest().authenticated()
             .and()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
